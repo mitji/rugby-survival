@@ -15,11 +15,11 @@ function Player(canvas) {
 }
 
 Player.prototype.draw = function() {
-  //this.ctx.fillStyle = '#66D3FA';
-  let icon = new Image();
-  icon.url = '../images/imgbin-rugby-union-rugby-ball-sport-computer-icons-rugby-players-10kXX6LTdSy6Fjn3uGgVKQDmv.jpg';
-  
-  this.ctx.fillStyle = this.ctx.createPattern(icon, 'no-repeat');
+  this.ctx.fillStyle = '#66D3FA';
+  // var playerIcon = new Image();
+  // playerIcon.url = '../images/player_2.png';
+  // this.ctx.drawImage(playerIcon, this.x, this.y, 100, 100);
+  // this.ctx.fillStyle = this.ctx.createPattern(playerIcon, 'no-repeat');
   // fillRect(x, y, width, height)
   this.ctx.fillRect(this.x, this.y, this.size, this.size);
 };
@@ -37,7 +37,7 @@ Player.prototype.setDirection = function(direction) {
 
 // Player.prototype.speedUp() = function() {}; // --> backlog
 
-Player.prototype.playerPosition = function() {
+Player.prototype.handlePlayerPosition = function() {
   
   // handle Screen collisions
   if (this.x<=0) this.x = 0;

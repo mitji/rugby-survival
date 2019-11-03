@@ -4,8 +4,9 @@ function Game() {
   this.canvas = null;
   this.ctx = null;
   this.gameScreen = null;
-  this.player;
+  this.player = null;
   this.defender;
+  this.gameIsOver = false;
   // this.country;
   // this.numberOfDdefenders;
   // this.difficulty;
@@ -28,8 +29,8 @@ Game.prototype.start = function() {
   this.player = new Player(this.canvas);
   this.defender1 = new Defender(this.canvas, this.canvas.width/2, this.canvas.height/2);
   this.defender2 = new Defender(this.canvas, this.canvas.width/2, this.canvas.height/2 + 100);
-  this.defenders = [this.defender1, this.defender2];
   this.defender3 = new Defender(this.canvas, this.canvas.width/2 + 150, this.canvas.height/2 + 50);
+  this.defenders = [this.defender1, this.defender2, this.defender3];
 
   // Create a callback for keydown
   this.handleKeyDown = function(event) {
@@ -73,16 +74,18 @@ Game.prototype.startLoop = function() {
     this.defenders.forEach( function(defender) {
       defender.handleDefenseMovement();
       if (defender.isInBorderTop) {
-        this.defenders.forEach( function(otherDefender1) {
-          otherDefender1.directionY = 1;
-        });
+        // this.defenders.forEach( function(otherDefender1) {
+        //   otherDefender1.directionY = 1;
+        // });
+        this.defenders[1].directionY = 1;
       } else if (defender.isInBorderBottom) {
-        this.defenders.forEach( function(otherDefender2) {
-          otherDefender2.directionY = -1;
-        });
+        // this.defenders.forEach( function(otherDefender2) {
+        //   otherDefender2.directionY = -1;
+        // });
+        this.defenders[0].directionY = -1;
       }
     }.bind(this));
-    this.defender3.handleDefenseMovement();
+    //this.defender3.handleDefenseMovement();
 
     // if (this.defender1.isInBorderTop) {
     //   this.defender2.directionY = 1;
@@ -91,7 +94,7 @@ Game.prototype.startLoop = function() {
     // } 
 
     
-    this.player.playerPosition();
+    this.player.handlePlayerPosition();
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     
     this.player.draw();
@@ -99,8 +102,12 @@ Game.prototype.startLoop = function() {
     this.defender2.draw();
     this.defender3.draw();
 
+    this.setGameOver();
+
     // This will be something like if (!this.gameIsOver)
-    window.requestAnimationFrame(loop);
+    if (!this.gameIsOver) {
+      window.requestAnimationFrame(loop);
+    }
   }.bind(this);
 
   loop();
@@ -123,4 +130,10 @@ Game.prototype.checkTackle = function() {
 
 Game.prototype.updateMatchScore = function() {};
 
-Game.prototype.setGameOver = function() {};
+Game.prototype.setGameOver = function() {
+  if(this.player.scoreLocal>=25 || this.player.scoreOpposition>=25) {
+    this.gameIsOver = true;
+    console.log('GAME OVER');
+    this.gameScreen.remove();
+  }
+};

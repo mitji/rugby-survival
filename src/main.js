@@ -11,6 +11,7 @@ function buildDom(htmlString) {
 function main() {
   var game; // instance of the Game
   var splashScreen; // Start Screen
+  var gameScreen;
   var gameOverScreen;
 
   // splash screen
@@ -37,7 +38,7 @@ function main() {
   // game screen
 
   function createGameScreen() {
-    var gameScreen = buildDom(`
+    gameScreen = buildDom(`
       <main class="game container">
         <header>
           <div class="game-name">
@@ -67,7 +68,17 @@ function main() {
 
   // game over screen
 
-  function createGameOverScreen() {}; // I will need to pass the score
+  function createGameOverScreen() {
+    gameOverScreen = buildDom(`
+      <main class="game container">
+        <h1>GAME OVER<h1>
+      </main>
+    `);
+
+    document.body.appendChild(gameOverScreen);
+
+    return gameOverScreen;
+  }; // I will need to pass the score
   function removeGameOverScreen() {};
 
 
@@ -82,11 +93,16 @@ function main() {
     // Start the game
     game.start();
     // End the game
+    if (game.gameIsOver) {
+      console.log('gameee over');
+      gameOver();
+    }
 
   };
 
   function gameOver(score) {
-
+    removeGameScreen();
+    createGameOverScreen();
   };
 
   // initialise Splash screen on initial start
