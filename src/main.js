@@ -42,12 +42,14 @@ function main() {
         <header>
           <div class="game-name">
             <h2>Rugby Survival</h2>
-          </div>
-          <div class="lives">
-            <span class="label">Score:</span>
-            <span class="value"></span>
           </div>  
         </header>
+        <div class="score-container">
+          <span class="score-team">ENG</span> 
+          <span class="score-local">0</span> 
+          <span class="score-visitant">0</span>
+          <span class="score-team">ESP</span>    
+        </div>
         <div class="canvas-container">
           <canvas></canvas>
         </div>

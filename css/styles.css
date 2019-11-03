@@ -86,9 +86,18 @@ main button:hover {
 .game .value {
   font-style: italic;
 }
+
+.score-container{
+  padding: 10px;
+  text-align: left;
+  border: 2px solid black;
+}
+.score-team {
+  font-weight: bold;
+}
+
 .canvas-container {
   height: 600px;
-  margin-top: 60px;
 }
 canvas {
   background-image: url(../images/rugby_pitch.png);

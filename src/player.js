@@ -9,7 +9,8 @@ function Player(canvas) {
   this.directionY = 0;
   this.speed = 4;
   this.lives = 4;
-  this.score = 0;
+  this.scoreLocal = 0;
+  this.scoreOpposition = 0;
   // this.isTackled;
 }
 
@@ -43,9 +44,9 @@ Player.prototype.handleTry = function() {
   if(this.x >= this.canvas.width - 80) {
     console.log('try');
     this.resetPosition();
-    this.score += 5;
-    var scoreSpan = document.querySelector('.value');
-    scoreSpan.innerHTML = this.score;
+    this.scoreLocal += 5;
+    var spanLocalScore = document.querySelector('.score-local');
+    spanLocalScore.innerHTML = this.scoreLocal;
   }
 };
 
@@ -70,6 +71,9 @@ Player.prototype.isTackled = function(defender) {
   var crossTop = defenderTop <= playerBottom && defenderTop >= playerTop;
 
   if ((crossLeft || crossRight) && (crossTop || crossBottom)) {
+    this.scoreOpposition += 5;
+    var spanVisitantScore = document.querySelector('.score-visitant');
+    spanVisitantScore.innerHTML = this.scoreOpposition;
     return true;
   }
   return false;
