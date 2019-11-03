@@ -107,6 +107,7 @@ Game.prototype.checkTackle = function() {
   this.defenders.forEach( function(defender) {
     if ( this.player.isTackled(defender) ) {
       this.player.resetPosition();
+      this.player.removeLife();
       console.log('lives', this.player.lives);  
       if (this.player.lives === 0) {
         //this.gameOver();

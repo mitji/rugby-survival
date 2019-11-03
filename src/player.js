@@ -9,7 +9,7 @@ function Player(canvas) {
   this.directionY = 0;
   this.speed = 4;
   this.lives = 4;
-  this.points;
+  this.score = 0;
   // this.isTackled;
 }
 
@@ -39,6 +39,14 @@ Player.prototype.setDirection = function(direction) {
 Player.prototype.handleTry = function() {
   this.y = this.y + this.directionY * this.speed;
   this.x = this.x + this.directionX * this.speed;
+
+  if(this.x >= this.canvas.width - 80) {
+    console.log('try');
+    this.resetPosition();
+    this.score += 5;
+    var scoreSpan = document.querySelector('.value');
+    scoreSpan.innerHTML = this.score;
+  }
 };
 
 Player.prototype.isTackled = function(defender) {
@@ -68,7 +76,6 @@ Player.prototype.isTackled = function(defender) {
 };
 
 Player.prototype.resetPosition = function() {
-  this.removeLife();
   this.x = this.canvas.width / 4;
   this.y = this.canvas.height / 2;
 };

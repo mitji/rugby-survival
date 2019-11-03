@@ -44,7 +44,7 @@ function main() {
             <h2>Rugby Survival</h2>
           </div>
           <div class="lives">
-            <span class="label">Lives:</span>
+            <span class="label">Score:</span>
             <span class="value"></span>
           </div>  
         </header>
