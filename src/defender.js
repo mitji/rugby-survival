@@ -1,10 +1,10 @@
 'use strict'
 
-function Defender(canvas, y) {
+function Defender(canvas, x, y) {
   this.canvas = canvas;
   this.ctx = canvas.getContext('2d');
   this.size = 30; // same size as player
-  this.x = canvas.width/2;
+  this.x = x;
   this.y = y; 
   //this.directionX;
   this.directionY = -1;// MVP only position Y

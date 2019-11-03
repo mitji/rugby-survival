@@ -37,10 +37,25 @@ Player.prototype.setDirection = function(direction) {
 
 // Player.prototype.speedUp() = function() {}; // --> backlog
 
-Player.prototype.handleTry = function() {
+Player.prototype.playerPosition = function() {
+  
+  // handle Screen collisions
+  if (this.x<=0) this.x = 0;
+  else if (this.y>= this.canvas.height-this.size) this.y = this.canvas.height-this.size;
+  else if (this.y<=0) this.y = 0;
+  else if (this.x<=0 && this.y<=0) { // not working
+    this.x = 0; 
+    this.y = 0;
+  }
+  else if (this.x<=0 && this.canvas.height-this.size) { // not working
+    this.x = 0; 
+    this.y = this.canvas.height-this.size;
+  }
+  
   this.y = this.y + this.directionY * this.speed;
   this.x = this.x + this.directionX * this.speed;
 
+  // try
   if(this.x >= this.canvas.width - 80) {
     console.log('try');
     this.resetPosition();
@@ -48,6 +63,8 @@ Player.prototype.handleTry = function() {
     var spanLocalScore = document.querySelector('.score-local');
     spanLocalScore.innerHTML = this.scoreLocal;
   }
+
+  
 };
 
 Player.prototype.isTackled = function(defender) {

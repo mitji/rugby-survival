@@ -26,9 +26,10 @@ Game.prototype.start = function() {
 
   // Create new player
   this.player = new Player(this.canvas);
-  this.defender1 = new Defender(this.canvas, this.canvas.height/2);
-  this.defender2 = new Defender(this.canvas, this.canvas.height/2 + 100);
+  this.defender1 = new Defender(this.canvas, this.canvas.width/2, this.canvas.height/2);
+  this.defender2 = new Defender(this.canvas, this.canvas.width/2, this.canvas.height/2 + 100);
   this.defenders = [this.defender1, this.defender2];
+  this.defender3 = new Defender(this.canvas, this.canvas.width/2 + 150, this.canvas.height/2 + 50);
 
   // Create a callback for keydown
   this.handleKeyDown = function(event) {
@@ -81,6 +82,7 @@ Game.prototype.startLoop = function() {
         });
       }
     }.bind(this));
+    this.defender3.handleDefenseMovement();
 
     // if (this.defender1.isInBorderTop) {
     //   this.defender2.directionY = 1;
@@ -89,12 +91,13 @@ Game.prototype.startLoop = function() {
     // } 
 
     
-    this.player.handleTry();
+    this.player.playerPosition();
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     
     this.player.draw();
     this.defender1.draw();
     this.defender2.draw();
+    this.defender3.draw();
 
     // This will be something like if (!this.gameIsOver)
     window.requestAnimationFrame(loop);
