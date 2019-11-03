@@ -8,7 +8,7 @@ function Player(canvas) {
   this.directionX = 0; // initialise direction to the right
   this.directionY = 0;
   this.speed = 4;
-  this.lives;
+  this.lives = 4;
   this.points;
   // this.isTackled;
 }
@@ -37,12 +37,43 @@ Player.prototype.setDirection = function(direction) {
 // Player.prototype.speedUp() = function() {}; // --> backlog
 
 Player.prototype.handleTry = function() {
-  //console.log(this.x, this.y);
   this.y = this.y + this.directionY * this.speed;
   this.x = this.x + this.directionX * this.speed;
 };
 
-Player.prototype.resetPosition = function() {};
+Player.prototype.isTackled = function(defender) {
+  var playerLeft = this.x;
+  var playerRight = this.x + this.size;
+  var playerTop = this.y;
+  var playerBottom = this.y + this.size;
 
-Player.prototype.removeLife = function() {}; // inside removeLife (collision) --> resetPosition
+  var defenderLeft = defender.x;
+  var defenderRight = defender.x + defender.size;
+  var defenderTop = defender.y;
+  var defenderBottom = defender.y + defender.size;
+
+  // Check if the defender tackles player
+  var crossLeft = defenderLeft <= playerRight && defenderLeft >= playerLeft;
+    
+  var crossRight = defenderRight >= playerLeft && defenderRight <= playerRight;
+  
+  var crossBottom = defenderBottom >= playerTop && defenderBottom <= playerBottom;
+  
+  var crossTop = defenderTop <= playerBottom && defenderTop >= playerTop;
+
+  if ((crossLeft || crossRight) && (crossTop || crossBottom)) {
+    return true;
+  }
+  return false;
+};
+
+Player.prototype.resetPosition = function() {
+  this.removeLife();
+  this.x = this.canvas.width / 4;
+  this.y = this.canvas.height / 2;
+};
+
+Player.prototype.removeLife = function() {
+  this.lives -= 1;
+}; // inside removeLife (collision) --> resetPosition
 

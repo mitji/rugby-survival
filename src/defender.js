@@ -15,7 +15,7 @@ function Defender(canvas, y) {
   this.isInBorderBottom = false;
 }
 
-Defender.prototype.handleDefense = function() {
+Defender.prototype.handleDefenseMovement = function() {
   this.y = this.y + this.directionY * this.speed; // updates height of the player in every same
   this.isInBorderTop = false;
   this.isInBorderBottom = false;

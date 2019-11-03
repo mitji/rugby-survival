@@ -28,6 +28,7 @@ Game.prototype.start = function() {
   this.player = new Player(this.canvas);
   this.defender1 = new Defender(this.canvas, this.canvas.height/2);
   this.defender2 = new Defender(this.canvas, this.canvas.height/2 + 100);
+  this.defenders = [this.defender1, this.defender2];
 
   // Create a callback for keydown
   this.handleKeyDown = function(event) {
@@ -64,23 +65,33 @@ Game.prototype.start = function() {
 
 Game.prototype.startLoop = function() {
   var loop = function() {
-    console.log('def1', this.defender1.directionY);
-    console.log('def2', this.defender2.directionY);
-    // Draw player
 
-
-    if (this.defender1.isInBorderTop) {
-      this.defender2.directionY = 1;
-    } else if (this.defender2.isInBorderBottom) {
-      this.defender1.directionY = -1;
-    } 
-    this.defender1.handleDefense();
-    this.defender2.handleDefense();
-
+    this.checkTackle();
+    // For many defenders, I'll have to do the same as in the code along
     
+    this.defenders.forEach( function(defender) {
+      defender.handleDefenseMovement();
+      if (defender.isInBorderTop) {
+        this.defenders.forEach( function(otherDefender1) {
+          otherDefender1.directionY = 1;
+        });
+      } else if (defender.isInBorderBottom) {
+        this.defenders.forEach( function(otherDefender2) {
+          otherDefender2.directionY = -1;
+        });
+      }
+    }.bind(this));
+
+    // if (this.defender1.isInBorderTop) {
+    //   this.defender2.directionY = 1;
+    // } else if (this.defender2.isInBorderBottom) {
+    //   this.defender1.directionY = -1;
+    // } 
+
     
     this.player.handleTry();
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    
     this.player.draw();
     this.defender1.draw();
     this.defender2.draw();
@@ -92,7 +103,19 @@ Game.prototype.startLoop = function() {
   loop();
 };
 
-Game.prototype.checkTackle = function() {};
+Game.prototype.checkTackle = function() {
+  this.defenders.forEach( function(defender) {
+    if ( this.player.isTackled(defender) ) {
+      this.player.resetPosition();
+      console.log('lives', this.player.lives);  
+      if (this.player.lives === 0) {
+        //this.gameOver();
+        console.log('loooooooooooser!!');
+      }
+    }
+  }, this);
+  
+}
 
 Game.prototype.updateMatchScore = function() {};
 
