@@ -1,0 +1,98 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+html {
+  box-sizing: border-box;
+  height: 100%;
+}
+
+body {
+  font-family: sans-serif;
+  height: 100%;
+}
+
+/* ---- components ---- */
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  margin-top: 300px;
+}
+main h1 {
+  margin-bottom: 100px;
+}
+main button {
+  width: 200px;
+  padding: 15px;
+  border: 3px solid #0000ff7a;
+  border-radius: 50px;
+  background-color: #fff;
+  box-shadow: 4px 6px 5px 0px rgba(212,236,255,1);
+  align-self: center;
+  cursor: pointer;
+  outline: none;
+  transition: 0.3s;
+  font-size: 25px;
+  font-weight: bold;
+  color: #0000ff7a;
+}
+main button:hover {
+  box-shadow: none;
+  background-color: #f5f5f5;
+  border: 3px solid #000080bd;
+  color: #000080bd;
+}
+
+.container {
+  margin: 0 20px;
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 728px;
+    margin: 0 auto;
+  }
+}
+
+.game {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.game header {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+  align-items: center;
+  border: 1px solid;
+}
+
+.game .lives {
+  flex: 1;
+}
+
+.game .score {
+  flex: 1;
+}
+
+.game .label {
+  font-weight: bold;
+}
+
+.game .value {
+  font-style: italic;
+}
+
+.game .canvas-container {
+  background-image: url(../images/rugby_pitch.png);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  flex: 1;
+}
+
