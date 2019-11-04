@@ -24,6 +24,8 @@ function main() {
         <select id="countries">
           <option value="England">England</option>
           <option value="France">France</option>
+          <option value="New Zealand">New Zealand</option>
+          <option value="Wales">Wales</option>
         </select>
       </form>
       <button>PLAY!</button>
@@ -50,7 +52,7 @@ function main() {
           <span class="score-team">${country.name}</span> 
           <span class="score-local">0</span> 
           <span class="score-visitant">0</span>
-          <span class="score-team">ESP</span>    
+          <span class="score-team">RSA</span>    
         </div>
         <img class="img-game" src="../images/logo.png">
         <div class="canvas-container">
@@ -75,6 +77,12 @@ function main() {
       gameOverScreen = buildDom(`
         <main class="game container">
           <h1>YOU WIN!!<h1>
+          <div class="score-container">
+            <span class="score-team">${country.name}</span> 
+            <span class="score-local">0</span> 
+            <span class="score-visitant">0</span>
+            <span class="score-team">RSA</span>    
+          </div>
           <h2 class="score-container">${score[0]} - ${score[1]}</h2>
           <button>PLAY AGAIN!</button>
         </main>
@@ -108,6 +116,14 @@ function main() {
         return {
           name: 'FRA',
         }
+      case 'New Zealand':
+      return {
+        name: 'NZ',
+      }
+      case 'Wales':
+      return {
+        name: 'WAL',
+      }
     }
   }
 
@@ -116,7 +132,7 @@ function main() {
 
     var select_id = document.getElementById("countries");
     var countrySelected = select_id.value;
-    var countryInfo = getCountry(countrySelected);
+    const countryInfo = getCountry(countrySelected);
     removeSplashScreen();
     console.log('game started!');
 
