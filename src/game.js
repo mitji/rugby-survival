@@ -72,29 +72,7 @@ Game.prototype.startLoop = function() {
 
     this.checkTackle();
     // For many defenders, I'll have to do the same as in the code along
-    
-    this.defenders.forEach( function(defender) {
-      defender.handleDefenseMovement();
-      if (defender.isInBorderTop) {
-        // this.defenders.forEach( function(otherDefender1) {
-        //   otherDefender1.directionY = 1;
-        // });
-        this.defenders[1].directionY = 1;
-      } else if (defender.isInBorderBottom) {
-        // this.defenders.forEach( function(otherDefender2) {
-        //   otherDefender2.directionY = -1;
-        // });
-        this.defenders[0].directionY = -1;
-      }
-    }.bind(this));
-    //this.defender3.handleDefenseMovement();
-
-    // if (this.defender1.isInBorderTop) {
-    //   this.defender2.directionY = 1;
-    // } else if (this.defender2.isInBorderBottom) {
-    //   this.defender1.directionY = -1;
-    // } 
-
+    this.handleDefenseMovement();
     
     this.player.handlePlayerPosition();
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -113,6 +91,27 @@ Game.prototype.startLoop = function() {
   }.bind(this);
 
   loop();
+};
+
+Game.prototype.handleDefenseMovement = function() {
+  // forEach defender do all this below
+  var x_collision;
+  this.defenders.forEach( function(defender) {
+    defender.y = defender.y + defender.directionY * defender.speed; // updates height of the defender in every same
+    defender.isInBorderTop = false;
+    defender.isInBorderBottom = false;
+    if (defender.y>= (defender.canvas.height-defender.size) || defender.y<= 0) {
+      x_collision = defender.x;
+    }
+  });
+  console.log(x_collision);
+  this.defenders.forEach( function(defender) {
+    console.log('collison',x_collision);
+    if (x_collision === defender.x) {
+      console.log('in')
+      defender.directionY *= -1;
+    }
+  })
 };
 
 Game.prototype.checkTackle = function() {

@@ -13,6 +13,7 @@ function main() {
   var splashScreen; // Start Screen
   var gameScreen;
   var gameOverScreen;
+  var countryInfo;
 
   // splash screen
 
@@ -76,22 +77,26 @@ function main() {
     if (isWin === true) {
       gameOverScreen = buildDom(`
         <main class="game container">
-          <h1>YOU WIN!!<h1>
-          <div class="score-container">
+          <h2>YOU WIN!!</h2>
+          <div class="score-container final-score">
             <span class="score-team">${country.name}</span> 
-            <span class="score-local">0</span> 
-            <span class="score-visitant">0</span>
+            <span class="score-local">${score[0]}</span> 
+            <span class="score-visitant">${score[1]}</span>
             <span class="score-team">RSA</span>    
           </div>
-          <h2 class="score-container">${score[0]} - ${score[1]}</h2>
           <button>PLAY AGAIN!</button>
         </main>
       `);
     } else {
       gameOverScreen = buildDom(`
         <main class="game container">
-          <h1>GAME OVER<h1>
-          <h2 class="score-container final-score">${score[0]} - ${score[1]}</h2>
+          <h2>GAME OVER</h2>
+          <div class="score-container final-score">
+            <span class="score-team">${country.name}</span> 
+            <span class="score-local">${score[0]}</span> 
+            <span class="score-visitant">${score[1]}</span>
+            <span class="score-team">RSA</span>    
+          </div>
           <button>PLAY AGAIN!</button>
         </main>
        `);
@@ -132,7 +137,8 @@ function main() {
 
     var select_id = document.getElementById("countries");
     var countrySelected = select_id.value;
-    const countryInfo = getCountry(countrySelected);
+    countryInfo = getCountry(countrySelected);
+    console.log('countryInfo', countryInfo);
     removeSplashScreen();
     console.log('game started!');
 
@@ -145,7 +151,8 @@ function main() {
     game.passGameOverCallback(gameOver);
   };
 
-  function gameOver(score, isWin, countryInfo) {
+  function gameOver(score, isWin) {
+    console.log(countryInfo.name)
     removeGameScreen();
     createGameOverScreen(score, isWin, countryInfo);
   };
