@@ -95,7 +95,7 @@ form {
 }
 
 .score-container{
-  padding: 10px;
+  padding: 10px 20px;
   text-align: left;
   position: relative;
   background-color: #00343c;
@@ -104,6 +104,9 @@ form {
 }
 .score-team {
   font-weight: bold;
+}
+.score-local, .score-visitant {
+  padding: 0 5px;
 }
 .game-name {
   position: absolute;
@@ -142,4 +145,12 @@ color: white;
   text-align: center;
   align-self: center;
   margin-bottom: 50px;
+}
+#player-country {
+  width: 22px;
+  margin: 0 5px -5px 0;
+}
+#machine-country {
+  width: 22px;
+  margin: 0 0 -5px 5px;
 }

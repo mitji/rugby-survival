@@ -9,6 +9,7 @@ function Game() {
   this.gameIsOver = false;
   this.score = [];
   this.isWin = false;
+  this.isGameStarted = false;
   // this.country;
   // this.numberOfDdefenders;
   // this.difficulty;
@@ -69,7 +70,6 @@ Game.prototype.start = function() {
 
 Game.prototype.startLoop = function() {
   var loop = function() {
-
     this.checkTackle();
     // For many defenders, I'll have to do the same as in the code along
     this.handleDefenseMovement();
