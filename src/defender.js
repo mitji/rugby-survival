@@ -30,7 +30,8 @@ Defender.prototype.handleDefenseMovement = function() {
 };
 
 Defender.prototype.draw = function() {
-  this.ctx.fillStyle = 'purple';
-  // fillRect(x, y, width, height)
-  this.ctx.fillRect(this.x, this.y, this.size, this.size);
+  var defenderIcon = new Image();
+  defenderIcon.src = '../images/defender.png';
+  // put Sam Underhill and the other flanker
+  this.ctx.drawImage(defenderIcon, this.x, this.y, this.size, this.size);
 };

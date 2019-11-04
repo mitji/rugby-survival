@@ -9,26 +9,22 @@ function Player(canvas) {
   this.directionY = 0;
   this.speed = 4;
   this.lives = 4;
-  this.scoreLocal = 0;
+  this.scorePlayer = 0;
   this.scoreOpposition = 0;
   // this.isTackled;
 }
 
 Player.prototype.draw = function() {
-  this.ctx.fillStyle = '#66D3FA';
-  // var playerIcon = new Image();
-  // playerIcon.url = '../images/player_2.png';
-  // this.ctx.drawImage(playerIcon, this.x, this.y, 100, 100);
-  // this.ctx.fillStyle = this.ctx.createPattern(playerIcon, 'no-repeat');
-  // fillRect(x, y, width, height)
-  this.ctx.fillRect(this.x, this.y, this.size, this.size);
+  var playerIcon = new Image();
+  playerIcon.src = '../images/rugby-player.png';
+  this.ctx.drawImage(playerIcon, this.x, this.y, this.size, this.size);
 };
 
 Player.prototype.setDirection = function(direction) {
-  if (direction === 'up') this.directionY = -1;
-  else if (direction === 'down') this.directionY = 1;
+  if (direction === 'up' && this.y>=this.speed) this.directionY = -1;
+  else if (direction === 'down' && this.y<=this.canvas.height-this.size-this.speed) this.directionY = 1;
   else if (direction === 'right') this.directionX = 1;
-  else if (direction === 'left') this.directionX = -1;
+  else if (direction === 'left' && this.x>=this.speed) this.directionX = -1;
   else {
     this.directionX = 0;
     this.directionY = 0;
@@ -40,17 +36,18 @@ Player.prototype.setDirection = function(direction) {
 Player.prototype.handlePlayerPosition = function() {
   
   // handle Screen collisions
-  if (this.x<=0) this.x = 0;
-  else if (this.y>= this.canvas.height-this.size) this.y = this.canvas.height-this.size;
-  else if (this.y<=0) this.y = 0;
-  else if (this.x<=0 && this.y<=0) { // not working
+  if (this.x<=0 && this.y<=0) { // not working
     this.x = 0; 
     this.y = 0;
   }
-  else if (this.x<=0 && this.canvas.height-this.size) { // not working
+  else if (this.x<=0 && this.y>=this.canvas.height-this.size) { // not working
     this.x = 0; 
     this.y = this.canvas.height-this.size;
   }
+  else if (this.x<=0) this.x = 0;
+  else if (this.y>= this.canvas.height-this.size) this.y = this.canvas.height-this.size;
+  else if (this.y<=0) this.y = 0;
+  
   
   this.y = this.y + this.directionY * this.speed;
   this.x = this.x + this.directionX * this.speed;
@@ -59,12 +56,10 @@ Player.prototype.handlePlayerPosition = function() {
   if(this.x >= this.canvas.width - 80) {
     console.log('try');
     this.resetPosition();
-    this.scoreLocal += 5;
+    this.scorePlayer += 5;
     var spanLocalScore = document.querySelector('.score-local');
-    spanLocalScore.innerHTML = this.scoreLocal;
+    spanLocalScore.innerHTML = this.scorePlayer;
   }
-
-  
 };
 
 Player.prototype.isTackled = function(defender) {
@@ -101,7 +96,7 @@ Player.prototype.resetPosition = function() {
   this.y = this.canvas.height / 2;
 };
 
-Player.prototype.removeLife = function() {
-  this.lives -= 1;
-}; // inside removeLife (collision) --> resetPosition
+
+
+
 

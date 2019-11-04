@@ -7,6 +7,8 @@ function Game() {
   this.player = null;
   this.defender;
   this.gameIsOver = false;
+  this.score = [];
+  this.isWin = false;
   // this.country;
   // this.numberOfDdefenders;
   // this.difficulty;
@@ -117,23 +119,27 @@ Game.prototype.checkTackle = function() {
   this.defenders.forEach( function(defender) {
     if ( this.player.isTackled(defender) ) {
       this.player.resetPosition();
-      this.player.removeLife();
       console.log('tackleeee!!');  
-      if (this.player.lives === 0) {
-        //this.gameOver();
-        console.log('loooooooooooser!!');
-      }
     }
   }, this);
-  
 }
 
-Game.prototype.updateMatchScore = function() {};
+Game.prototype.matchScore = function() {
+  return [this.player.scorePlayer, this.player.scoreOpposition]
+};
 
 Game.prototype.setGameOver = function() {
-  if(this.player.scoreLocal>=25 || this.player.scoreOpposition>=25) {
+  if(this.player.scorePlayer>=25 || this.player.scoreOpposition>=25) {
+    this.score = this.matchScore();
+    if (this.player.scorePlayer > this.player.scoreOpposition) {
+      this.isWin = true;
+    }
     this.gameIsOver = true;
     console.log('GAME OVER');
-    this.gameScreen.remove();
+    this.onGameOverCallback(this.score, this.isWin);
   }
+};
+
+Game.prototype.passGameOverCallback = function(callback) {
+  this.onGameOverCallback = callback;
 };

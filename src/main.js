@@ -19,13 +19,19 @@ function main() {
   function createSplashScreen() {
     splashScreen = buildDom(`
     <main>
-      <h1>Rugby Survival</h1>
+      <img class="img-splash" src="../images/logo.png">
+      <form class="selectors">
+        <select id="countries">
+          <option value="England">England</option>
+          <option value="France">France</option>
+        </select>
+      </form>
       <button>PLAY!</button>
     </main>
     `);
 
     document.body.appendChild(splashScreen);
-
+    //country = document.getElementById('countries');
     var playBtn = splashScreen.querySelector('button');
     playBtn.addEventListener('click', startGame);
   };
@@ -37,20 +43,16 @@ function main() {
   
   // game screen
 
-  function createGameScreen() {
+  function createGameScreen(country) {
     gameScreen = buildDom(`
       <main class="game container">
-        <header>
-          <div class="game-name">
-            <h2>Rugby Survival</h2>
-          </div>  
-        </header>
         <div class="score-container">
-          <span class="score-team">ENG</span> 
+          <span class="score-team">${country.name}</span> 
           <span class="score-local">0</span> 
           <span class="score-visitant">0</span>
           <span class="score-team">ESP</span>    
         </div>
+        <img class="img-game" src="../images/logo.png">
         <div class="canvas-container">
           <canvas></canvas>
         </div>
@@ -68,41 +70,68 @@ function main() {
 
   // game over screen
 
-  function createGameOverScreen() {
-    gameOverScreen = buildDom(`
-      <main class="game container">
-        <h1>GAME OVER<h1>
-      </main>
-    `);
-
+  function createGameOverScreen(score, isWin) {
+    if (isWin === true) {
+      gameOverScreen = buildDom(`
+        <main class="game container">
+          <h1>YOU WIN!!<h1>
+          <h2 class="score-container">${score[0]} - ${score[1]}</h2>
+          <button>PLAY AGAIN!</button>
+        </main>
+      `);
+    } else {
+      gameOverScreen = buildDom(`
+        <main class="game container">
+          <h1>GAME OVER<h1>
+          <h2 class="score-container final-score">${score[0]} - ${score[1]}</h2>
+          <button>PLAY AGAIN!</button>
+        </main>
+       `);
+    }
     document.body.appendChild(gameOverScreen);
 
-    return gameOverScreen;
-  }; // I will need to pass the score
-  function removeGameOverScreen() {};
+    var playBtn = gameOverScreen.querySelector('button');
+    playBtn.addEventListener('click', removeGameOverScreen);
+  };
+  function removeGameOverScreen() {
+    gameOverScreen.remove();
+    startGame();
+  };
 
+  function getCountry(country) {
+    switch (country) {
+      case 'England':
+        return {
+          name: 'ENG',
+        }
+      case 'France':
+        return {
+          name: 'FRA',
+        }
+    }
+  }
 
   // set the game state
-  function startGame() {
+  function startGame(country) {
+
+    var select_id = document.getElementById("countries");
+    var countrySelected = select_id.value;
+    var countryInfo = getCountry(countrySelected);
     removeSplashScreen();
     console.log('game started!');
 
     game = new Game();
-    game.gameScreen = createGameScreen();
+    game.gameScreen = createGameScreen(countryInfo);
 
     // Start the game
     game.start();
     // End the game
-    if (game.gameIsOver) {
-      console.log('gameee over');
-      gameOver();
-    }
-
+    game.passGameOverCallback(gameOver);
   };
 
-  function gameOver(score) {
+  function gameOver(score, isWin) {
     removeGameScreen();
-    createGameOverScreen();
+    createGameOverScreen(score, isWin);
   };
 
   // initialise Splash screen on initial start
