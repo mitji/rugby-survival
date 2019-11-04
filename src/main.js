@@ -55,9 +55,9 @@ function main() {
         <div class="score-container">
           <img id="player-country" src="${country.iconFlagPath}">
           <span class="score-team">${country.name}</span> 
-          <span class="score-local">0</span> 
+          <p class="score-local">0</p> 
           |
-          <span class="score-visitant">0</span>
+          <p class="score-visitant">0</p>
           <span class="score-team">RSA</span>  
           <img id="player-country" src="./images/south-africa.png">  
         </div>

@@ -95,6 +95,8 @@ form {
 }
 
 .score-container{
+  display: flex;
+  flex-direction: row;
   padding: 10px 20px;
   text-align: left;
   position: relative;
@@ -106,7 +108,9 @@ form {
   font-weight: bold;
 }
 .score-local, .score-visitant {
+  width: 20px;
   padding: 0 5px;
+  text-align: center;
 }
 .game-name {
   position: absolute;
@@ -126,7 +130,7 @@ canvas {
 }
 h2 {
   margin-bottom: 70px;
-color: white;
+  color: #00343c;
 }
 
 .img-splash {
