@@ -19,7 +19,7 @@ function main() {
   function createSplashScreen() {
     splashScreen = buildDom(`
     <main>
-      <img class="img-splash" src="../images/logo.png">
+      <img class="img-splash" src="./../images/logo.png">
       <form class="selectors">
         <select id="countries">
           <option value="England">England</option>
@@ -54,7 +54,7 @@ function main() {
           <span class="score-visitant">0</span>
           <span class="score-team">RSA</span>    
         </div>
-        <img class="img-game" src="../images/logo.png">
+        <img class="img-game" src="./../images/logo.png">
         <div class="canvas-container">
           <canvas></canvas>
         </div>
@@ -72,7 +72,7 @@ function main() {
 
   // game over screen
 
-  function createGameOverScreen(score, isWin) {
+  function createGameOverScreen(score, isWin, country) {
     if (isWin === true) {
       gameOverScreen = buildDom(`
         <main class="game container">
@@ -103,7 +103,7 @@ function main() {
   };
   function removeGameOverScreen() {
     gameOverScreen.remove();
-    startGame();
+    createSplashScreen(); // now returns to inital state
   };
 
   function getCountry(country) {
@@ -145,9 +145,9 @@ function main() {
     game.passGameOverCallback(gameOver);
   };
 
-  function gameOver(score, isWin) {
+  function gameOver(score, isWin, countryInfo) {
     removeGameScreen();
-    createGameOverScreen(score, isWin);
+    createGameOverScreen(score, isWin, countryInfo);
   };
 
   // initialise Splash screen on initial start
