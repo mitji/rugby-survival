@@ -19,7 +19,7 @@ function main() {
   function createSplashScreen() {
     splashScreen = buildDom(`
     <main>
-      <img class="img-splash" src="./images/logo.png">
+      <img class="img-splash" src="/images/logo.png">
       <form class="selectors">
         <select id="countries">
           <option value="England">England</option>
