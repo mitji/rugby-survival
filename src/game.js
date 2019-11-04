@@ -71,7 +71,6 @@ Game.prototype.start = function() {
 Game.prototype.startLoop = function() {
   var loop = function() {
     this.checkTackle();
-    // For many defenders, I'll have to do the same as in the code along
     this.handleDefenseMovement();
     
     this.player.handlePlayerPosition();
@@ -84,7 +83,6 @@ Game.prototype.startLoop = function() {
 
     this.setGameOver();
 
-    // This will be something like if (!this.gameIsOver)
     if (!this.gameIsOver) {
       window.requestAnimationFrame(loop);
     }
@@ -94,7 +92,6 @@ Game.prototype.startLoop = function() {
 };
 
 Game.prototype.handleDefenseMovement = function() {
-  // forEach defender do all this below
   var x_collision;
   this.defenders.forEach( function(defender) {
     defender.y = defender.y + defender.directionY * defender.speed; // updates height of the defender in every same
@@ -104,11 +101,8 @@ Game.prototype.handleDefenseMovement = function() {
       x_collision = defender.x;
     }
   });
-  console.log(x_collision);
   this.defenders.forEach( function(defender) {
-    console.log('collison',x_collision);
     if (x_collision === defender.x) {
-      console.log('in')
       defender.directionY *= -1;
     }
   })
@@ -128,7 +122,7 @@ Game.prototype.matchScore = function() {
 };
 
 Game.prototype.setGameOver = function() {
-  if(this.player.scorePlayer>=25 || this.player.scoreOpposition>=25) {
+  if(this.player.scorePlayer>=5 || this.player.scoreOpposition>=25) {
     this.score = this.matchScore();
     if (this.player.scorePlayer > this.player.scoreOpposition) {
       this.isWin = true;

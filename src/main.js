@@ -59,7 +59,7 @@ function main() {
           |
           <p class="score-visitant">0</p>
           <span class="score-team">RSA</span>  
-          <img id="player-country" src="./images/south-africa.png">  
+          <img id="machine-country" src="./images/south-africa.png">  
         </div>
         <img class="img-game" src="./images/logo.png">
         <div class="canvas-container">
@@ -83,15 +83,19 @@ function main() {
     if (isWin === true) {
       gameOverScreen = buildDom(`
         <main class="container">
-          <h2>YOU WIN!!</h2>
-          <div class="score-container final-score">
-            <img id="player-country" src="${country.iconFlagPath}">
-            <span class="score-team">${country.name}</span> 
-            <span class="score-local">${score[0]}</span> 
-            <span id="machine-country"class="score-visitant">${score[1]}</span>
-            <span class="score-team">RSA</span>    
-            <img id="player-country" src="./images/south-africa.png">  
-          </div>
+          <section class="results-container">
+            <h2>YOU WIN!!</h2>
+            <div class="score-container final-score">
+              <img id="player-country" src="${country.iconFlagPath}">
+              <span class="score-team">${country.name}</span> 
+              <p class="score-local">${score[0]}</p> 
+              |
+              <p class="score-visitant">${score[1]}</p>
+              <span class="score-team">RSA</span>    
+              <img id="machine-country" src="./images/south-africa.png">  
+            </div>
+          </section>
+          
           <button>PLAY AGAIN!</button>
         </main>
       `);
@@ -99,14 +103,17 @@ function main() {
       gameOverScreen = buildDom(`
         <main class="container">
           <h2>GAME OVER</h2>
-          <div class="score-container final-score">
-            <img id="player-country" src="${country.iconFlagPath}">
-            <span class="score-team">${country.name}</span> 
-            <span class="score-local">${score[0]}</span> 
-            <span class="score-visitant">${score[1]}</span>
-            <span class="score-team">RSA</span>    
-            <img id="player-country" src="./images/south-africa.png">  
-          </div>
+          <section class="results-container">
+            <div class="score-container final-score">
+              <img id="player-country" src="${country.iconFlagPath}">
+              <span class="score-team">${country.name}</span> 
+              <p class="score-local">${score[0]}</p> 
+              |
+              <p class="score-visitant">${score[1]}</p>
+              <span class="score-team">RSA</span>    
+              <img id="machine-country" src="./images/south-africa.png">  
+            </div>
+          </section>
           <button>PLAY AGAIN!</button>
         </main>
        `);
@@ -136,7 +143,8 @@ function main() {
       case 'France':
         return {
           name: 'FRA',
-          iconFlagPath: './images/france.png'
+          iconFlagPath: './images/france.png',
+          nationalAnthem: './sounds/la-marseillaise.mp3'
         }
       case 'New Zealand':
       return {
@@ -157,7 +165,6 @@ function main() {
     var select_id = document.getElementById("countries");
     var countrySelected = select_id.value;
     countryInfo = getCountry(countrySelected);
-    console.log('countryInfo', countryInfo);
     removeSplashScreen();
     console.log('game started!');
 

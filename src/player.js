@@ -54,7 +54,6 @@ Player.prototype.handlePlayerPosition = function() {
 
   // try
   if(this.x >= this.canvas.width - 80) {
-    console.log('try');
     this.resetPosition();
     this.scorePlayer += 5;
     var spanLocalScore = document.querySelector('.score-local');

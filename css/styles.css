@@ -33,7 +33,7 @@ main button {
   outline: none;
   /* border: 3px solid #00252b; */
   border: none;
-  border-radius: 15px;
+  border-radius: 5px;
   background-color: #00343c;
   opacity: 0.85;
   transition: 0.1s;
@@ -53,10 +53,14 @@ form {
   margin-bottom: 55px;
 }
 
+.img-splash {
+  width: 800px;
+  align-self: center;
+}
+
 .container {
   margin: 0 20px;
 }
-
 @media (min-width: 768px) {
   .container {
     max-width: 860px;
@@ -70,26 +74,21 @@ form {
   text-align: center;
   /* margin-top: 50px; */
 }
-
 .game header {
   display: flex;
   flex-direction: column;
   padding: 20px 0;
   align-items: center;
 }
-
 .game .lives {
   flex: 1;
 }
-
 .game .score {
   flex: 1;
 }
-
 .game .label {
   font-weight: bold;
 }
-
 .game .value {
   font-style: italic;
 }
@@ -97,6 +96,7 @@ form {
 .score-container{
   display: flex;
   flex-direction: row;
+  align-items: center;
   padding: 10px 20px;
   text-align: left;
   position: relative;
@@ -106,16 +106,30 @@ form {
 }
 .score-team {
   font-weight: bold;
+  display: flex;
+  align-items: center;
 }
 .score-local, .score-visitant {
   width: 20px;
   padding: 0 5px;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.game-name {
+.img-game {
   position: absolute;
-  right: 0;
-  padding-right: 10px;
+  width: 150px;
+  top: 2%;
+  left: 638px;
+  align-self: center;
+}
+#player-country {
+  width: 22px;
+  margin-right: 7px;
+}
+#machine-country {
+  width: 22px;
+  margin-left: 7px;
 }
 
 .canvas-container {
@@ -128,33 +142,42 @@ canvas {
   background-position: center;
   flex: 1;
 }
-h2 {
-  margin-bottom: 70px;
-  color: #00343c;
-}
 
-.img-splash {
-  width: 800px;
-  align-self: center;
+.results-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 60px 0;
+  background-color: #00343c;
+  opacity: 0.8;
+  color: white;
 }
-.img-game {
-  position: absolute;
-  width: 150px;
-  top: 2%;
-  left: 638px;
-  align-self: center;
+h2 {
+  margin-bottom: 40px;
+  color: white;
+}
+.results-container .score-container {
+  /* background-color: #000506; */
+  justify-content: center;
+  opacity: 1;
+  font-size: 35px;
+  border-bottom: 2px solid white;
+  padding-bottom: 30px;
 }
 .final-score {
-  width: 250px;
   text-align: center;
   align-self: center;
-  margin-bottom: 50px;
 }
-#player-country {
-  width: 22px;
-  margin: 0 5px -5px 0;
+.results-container #player-country {
+  width: 30px;
+  margin-right: 12px;
 }
-#machine-country {
-  width: 22px;
-  margin: 0 0 -5px 5px;
+.results-container #machine-country {
+  width: 30px;
+  margin-left: 12px;
+}
+.results-container .score-local, .results-container .score-visitant {
+  width: 65px;
 }
