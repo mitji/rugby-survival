@@ -19,7 +19,7 @@ function main() {
   function createSplashScreen() {
     splashScreen = buildDom(`
     <main>
-      <img class="img-splash" src="/images/logo.png">
+      <img class="img-splash" src="./images/logo.png">
       <form class="selectors">
         <select id="countries">
           <option value="England">England</option>
@@ -54,7 +54,7 @@ function main() {
           <span class="score-visitant">0</span>
           <span class="score-team">RSA</span>    
         </div>
-        <img class="img-game" src="./../images/logo.png">
+        <img class="img-game" src="./images/logo.png">
         <div class="canvas-container">
           <canvas></canvas>
         </div>

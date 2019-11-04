@@ -16,7 +16,7 @@ function Player(canvas) {
 
 Player.prototype.draw = function() {
   var playerIcon = new Image();
-  playerIcon.src = './../images/rugby-player.png';
+  playerIcon.src = './images/rugby-player.png';
   this.ctx.drawImage(playerIcon, this.x, this.y, this.size, this.size);
 };
 
