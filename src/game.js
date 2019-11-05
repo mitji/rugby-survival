@@ -17,6 +17,7 @@ function Game(difficulty) {
   this.isBallKicked = false; // for the drop (maybe for tackle, try, and drop messages)
   this.gameIsOver = false;
   this.isWin = false;
+  this.speedArr = []; // store all speeds to reassign it after the kick
   //this.isGameStarted = false; --> for the referee sound
 }
 
@@ -36,7 +37,7 @@ Game.prototype.start = function() {
   // Create new player
   this.player = new Player(this.canvas);
   // Create ball
-  //this.ball = new Ball(this.canvas);
+  this.ball = new Ball(this.canvas);
 
   // Create defenders
   this.defender1 = new Defender(this.canvas, this.canvas.width/2, this.canvas.height/2);
@@ -58,6 +59,11 @@ Game.prototype.start = function() {
     element.setSpeed(this.difficulty);
   }.bind(this));
 
+  // store all speeds to reassign it after the kick 
+  this.defenders.forEach( function(defender,i) {
+    this.speedArr[i] = defender.speed;
+  }.bind(this))
+
   // Create a callback for keydown
   this.handleKeyDown = function(event) {
     if (event.key === 'ArrowUp') {  
@@ -70,7 +76,8 @@ Game.prototype.start = function() {
       this.player.setDirection('right');
     } else if (event.code === 'Space') {
       this.player.speed += 5;
-    } else if (event.key === 'k') {
+    } else if (event.key === 'd') {
+      console.log('ball kicked!')
       this.isBallKicked = true;
     }
   }
@@ -106,9 +113,13 @@ Game.prototype.startLoop = function() {
     }
     
     this.handlePlayerPosition();
+    this.handleBall();
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     
     this.player.draw();
+    //if (this.isBallKicked) {
+      this.ball.draw();
+    //}
     this.defenders.forEach( function(defender) {
       defender.draw();
     });
@@ -129,8 +140,13 @@ Game.prototype.startLoop = function() {
 // Defense functions
 Game.prototype.handleDefenseMovement = function() {
   var x_collision;
-  
   this.defenders.forEach( function(defender,i) {
+    
+    if (this.isBallKicked === false) {
+      defender.speed = this.speedArr[i];
+    } else {
+      defender.speed = 0;
+    }
     if (i!=4) {
       defender.y = defender.y + defender.directionY * defender.speed; // updates height of the defender in every same
       defender.isInBorderTop = false;
@@ -139,7 +155,7 @@ Game.prototype.handleDefenseMovement = function() {
         x_collision = defender.x;
       }
     }
-  });
+  }.bind(this));
   this.defenders.forEach( function(defender) {
     if (x_collision === defender.x) {
       defender.directionY *= -1;
@@ -209,7 +225,7 @@ Game.prototype.handlePlayerPosition = function() {
   this.player.x = this.player.x + this.player.directionX * this.player.speed;
 
   // try
-  if(this.player.x >= this.player.canvas.width - 80) {
+  if(this.player.x >= this.canvas.width - 80) {
     this.player.resetPosition();
     this.defenseResetPosition();
     this.scorePlayer += 5;
@@ -258,12 +274,32 @@ Game.prototype.checkTackle = function() {
 
 // Ball functions
 Game.prototype.handleBall = function() {
-  if (this.isBallKicked = true) {
-    this.directionX = 1;
+  if (this.isBallKicked === true) {
+    console.log('in')
+    this.ball.directionX = 1;
     if (this.ball.y < this.canvas.height/2) { 
       this.ball.directionY = 1;
     } else if (this.ball.y > this.canvas.height/2) { 
       this.ball.directionY = -1;
+    }
+    // apply tales theorem
+    var a = Math.abs(this.canvas.height/2- (this.canvas.height - this.ball.y));
+    var c = Math.abs(this.canvas.width - 80 - this.ball.x);
+    var d = this.ball.x + this.ball.speed * this.ball.directionX;
+    var b = (a*d)/c;
+
+    this.ball.x = this.ball.x + d*this.ball.directionX;
+    this.ball.y = this.ball.y + b*this.ball.directionY;
+
+    // score kick (named 'drop goal')
+    if(this.ball.x >= this.ball.canvas.width - 70) {
+      this.isBallKicked = false;
+      console.log('goal!!');
+      this.player.resetPosition();
+      this.defenseResetPosition();
+      this.scorePlayer += 3;
+      var spanLocalScore = document.querySelector('.score-local');
+      spanLocalScore.innerHTML = this.scorePlayer;
     }
   } else {
     this.ball.x = this.player.x;

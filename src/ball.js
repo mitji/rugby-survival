@@ -8,7 +8,7 @@ function Ball(canvas) {
   this.y = canvas.height / 2;
   this.directionX = 0; // initialise direction to the right
   this.directionY = 0;
-  this.speed = 8;
+  this.speed = 5;
 }
 
 Ball.prototype.draw = function() {
