@@ -1,18 +1,23 @@
 'use strict'
 
-function Game() {
+function Game(difficulty) {
   this.canvas = null;
   this.ctx = null;
   this.gameScreen = null;
   this.player = null;
-  this.defender;
-  this.gameIsOver = false;
+  this.ball = null;
+  this.defender1 = null;
+  this.defender2 = null;
+  this.defender3 = null;
+  this.defender4 = null;
+  this.difficulty = difficulty;
+  this.scorePlayer = 0;
+  this.scoreOpposition = 0;
   this.score = [];
+  this.isBallKicked = false; // for the drop (maybe for tackle, try, and drop messages)
+  this.gameIsOver = false;
   this.isWin = false;
-  this.isGameStarted = false;
-  // this.country;
-  // this.numberOfDdefenders;
-  // this.difficulty;
+  //this.isGameStarted = false; --> for the referee sound
 }
 
 Game.prototype.start = function() {
@@ -30,10 +35,28 @@ Game.prototype.start = function() {
 
   // Create new player
   this.player = new Player(this.canvas);
+  // Create ball
+  //this.ball = new Ball(this.canvas);
+
+  // Create defenders
   this.defender1 = new Defender(this.canvas, this.canvas.width/2, this.canvas.height/2);
   this.defender2 = new Defender(this.canvas, this.canvas.width/2, this.canvas.height/2 + 100);
-  this.defender3 = new Defender(this.canvas, this.canvas.width/2 + 150, this.canvas.height/2 + 50);
+  this.defender3 = new Defender(this.canvas, this.canvas.width/2 + 150, this.canvas.height/2 - 20);
   this.defenders = [this.defender1, this.defender2, this.defender3];
+  
+  if (this.difficulty === '3' || this.difficulty === '4') {
+    this.defender4 = new Defender(this.canvas, this.canvas.width/2 + 150, this.canvas.height/2 + 250);
+    this.defenders.push(this.defender4);
+  } 
+  if (this.difficulty === '4') {
+    this.player.speed += 1;
+    this.defender5 = new Defender(this.canvas, this.canvas.width/2 + 200, this.canvas.height/2);
+    this.defender5.speed = 2;
+    this.defenders.push(this.defender5);
+  }
+  this.defenders.forEach( function(element) {
+    element.setSpeed(this.difficulty);
+  }.bind(this));
 
   // Create a callback for keydown
   this.handleKeyDown = function(event) {
@@ -45,6 +68,10 @@ Game.prototype.start = function() {
       this.player.setDirection('left');
     } else if (event.key === 'ArrowRight') {
       this.player.setDirection('right');
+    } else if (event.code === 'Space') {
+      this.player.speed += 5;
+    } else if (event.key === 'k') {
+      this.isBallKicked = true;
     }
   }
   this.handleKeyUp = function(event) {
@@ -56,6 +83,8 @@ Game.prototype.start = function() {
       this.player.directionX = 0;
     } else if (event.key === 'ArrowRight') {
       this.player.directionX = 0;
+    } else if (event.code === 'Space') {
+      this.player.speed -= 5;
     }
   }
 
@@ -72,14 +101,20 @@ Game.prototype.startLoop = function() {
   var loop = function() {
     this.checkTackle();
     this.handleDefenseMovement();
+    if (this.defender5 != null) {
+      this.handleFullbackPosition();
+    }
     
-    this.player.handlePlayerPosition();
+    this.handlePlayerPosition();
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     
     this.player.draw();
-    this.defender1.draw();
-    this.defender2.draw();
-    this.defender3.draw();
+    this.defenders.forEach( function(defender) {
+      defender.draw();
+    });
+    if (this.defender5 != null) {
+      this.defender5.draw();
+    }
 
     this.setGameOver();
 
@@ -91,14 +126,18 @@ Game.prototype.startLoop = function() {
   loop();
 };
 
+// Defense functions
 Game.prototype.handleDefenseMovement = function() {
   var x_collision;
-  this.defenders.forEach( function(defender) {
-    defender.y = defender.y + defender.directionY * defender.speed; // updates height of the defender in every same
-    defender.isInBorderTop = false;
-    defender.isInBorderBottom = false;
-    if (defender.y>= (defender.canvas.height-defender.size) || defender.y<= 0) {
-      x_collision = defender.x;
+  
+  this.defenders.forEach( function(defender,i) {
+    if (i!=4) {
+      defender.y = defender.y + defender.directionY * defender.speed; // updates height of the defender in every same
+      defender.isInBorderTop = false;
+      defender.isInBorderBottom = false;
+      if (defender.y>= (defender.canvas.height-defender.size) || defender.y<= 0) {
+        x_collision = defender.x;
+      }
     }
   });
   this.defenders.forEach( function(defender) {
@@ -108,23 +147,138 @@ Game.prototype.handleDefenseMovement = function() {
   })
 };
 
+Game.prototype.handleFullbackPosition = function() {
+  if (this.player.x < this.defender5.x) {
+    this.defender5.directionX = -1;
+  } else if (this.player.x > this.defender5.x) {
+    this.defender5.directionX = 1;
+  } else {
+    this.defender5.directionX = 0;
+  }
+
+  if (this.player.y < this.defender5.y) {
+    this.defender5.directionY = -1;
+  } else if (this.player.y > this.defender5.y) {
+    this.defender5.directionY = 1;
+  } else {
+    this.defender5.directionY = 0;
+  }
+
+  this.defender5.y = this.defender5.y + this.defender5.directionY * this.defender5.speed;
+  this.defender5.x = this.defender5.x + this.defender5.directionX * this.defender5.speed;
+}
+
+Game.prototype.defenseResetPosition = function() {
+  this.defender1.x = this.canvas.width/2;
+  this.defender1.y = this.canvas.height/2;
+
+  this.defender2.x = this.canvas.width/2;
+  this.defender2.y = this.canvas.height/2 + 100;
+
+  this.defender3.x = this.canvas.width/2 + 150;
+  this.defender3.y =  this.canvas.height/2 - 20;
+
+  if (this.defender4 != null) {
+    this.defender4.x = this.canvas.width/2 + 150;
+    this.defender4.y =  this.canvas.height/2 +250;
+  }
+  if (this.defender5 != null) {
+    this.defender5.x = this.canvas.width/2 + 200;
+    this.defender5.y =  this.canvas.height/2;
+  }
+}
+
+// Player functions
+Game.prototype.handlePlayerPosition = function() {
+  
+  // handle Screen collisions
+  if (this.player.x<=0 && this.player.y<=0) {
+    this.player.x = 0; 
+    this.player.y = 0;
+  }
+  else if (this.player.x<=0 && this.player.y>=this.player.canvas.height-this.player.size) {
+    this.player.x = 0; 
+    this.player.y = this.player.canvas.height-this.player.size;
+  }
+  else if (this.player.x<=0) this.player.x = 0;
+  else if (this.player.y>= this.player.canvas.height-this.player.size) this.player.y = this.player.canvas.height-this.player.size;
+  else if (this.player.y<=0) this.player.y = 0;
+  
+  
+  this.player.y = this.player.y + this.player.directionY * this.player.speed;
+  this.player.x = this.player.x + this.player.directionX * this.player.speed;
+
+  // try
+  if(this.player.x >= this.player.canvas.width - 80) {
+    this.player.resetPosition();
+    this.defenseResetPosition();
+    this.scorePlayer += 5;
+    var spanLocalScore = document.querySelector('.score-local');
+    spanLocalScore.innerHTML = this.scorePlayer;
+  }
+};
+
+Game.prototype.isTackled = function(defender) {
+  var playerLeft = this.player.x;
+  var playerRight = this.player.x + this.player.size;
+  var playerTop = this.player.y;
+  var playerBottom = this.player.y + this.player.size;
+
+  var defenderLeft = defender.x;
+  var defenderRight = defender.x + defender.size;
+  var defenderTop = defender.y;
+  var defenderBottom = defender.y + defender.size;
+
+  // Check if the defender tackles player
+  var crossLeft = defenderLeft <= playerRight && defenderLeft >= playerLeft;
+    
+  var crossRight = defenderRight >= playerLeft && defenderRight <= playerRight;
+  
+  var crossBottom = defenderBottom >= playerTop && defenderBottom <= playerBottom;
+  
+  var crossTop = defenderTop <= playerBottom && defenderTop >= playerTop;
+
+  if ((crossLeft || crossRight) && (crossTop || crossBottom)) {
+    this.scoreOpposition += 5;
+    var spanVisitantScore = document.querySelector('.score-visitant');
+    spanVisitantScore.innerHTML = this.scoreOpposition;
+    this.defenseResetPosition();
+    return true;
+  }
+  return false;
+};
 Game.prototype.checkTackle = function() {
   this.defenders.forEach( function(defender) {
-    if ( this.player.isTackled(defender) ) {
+    if ( this.isTackled(defender) ) {
       this.player.resetPosition();
       console.log('tackleeee!!');  
     }
   }, this);
 }
 
-Game.prototype.matchScore = function() {
-  return [this.player.scorePlayer, this.player.scoreOpposition]
+// Ball functions
+Game.prototype.handleBall = function() {
+  if (this.isBallKicked = true) {
+    this.directionX = 1;
+    if (this.ball.y < this.canvas.height/2) { 
+      this.ball.directionY = 1;
+    } else if (this.ball.y > this.canvas.height/2) { 
+      this.ball.directionY = -1;
+    }
+  } else {
+    this.ball.x = this.player.x;
+    this.ball.y = this.player.y;
+  }
+}
+
+Game.prototype.updateMatchScore = function() {
+  return [this.scorePlayer, this.scoreOpposition]
 };
 
 Game.prototype.setGameOver = function() {
-  if(this.player.scorePlayer>=5 || this.player.scoreOpposition>=25) {
-    this.score = this.matchScore();
-    if (this.player.scorePlayer > this.player.scoreOpposition) {
+  if(this.scorePlayer>=25 || this.scoreOpposition>=25) {
+    this.score = this.updateMatchScore();
+    if (this.scorePlayer > this.scoreOpposition) {
       this.isWin = true;
     }
     this.gameIsOver = true;

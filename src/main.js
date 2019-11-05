@@ -25,11 +25,17 @@ function main() {
     <main>
       <img class="img-splash" src="./images/logo.png">
       <form class="selectors">
-        <select id="countries">
+        <select id="countries-selector">
           <option value="England">England</option>
           <option value="France">France</option>
           <option value="New Zealand">New Zealand</option>
           <option value="Wales">Wales</option>
+        </select>
+        <select id="difficulty-selector">
+          <option value="1">Level 1</option>
+          <option value="2">Level 2</option>
+          <option value="3">Level 3</option>
+          <option value="4">Leve 4</option>
         </select>
       </form>
       <button>PLAY!</button>
@@ -49,7 +55,7 @@ function main() {
   
   // game screen
 
-  function createGameScreen(country) {
+  function createGameScreen(country, diffLevel) {
     gameScreen = buildDom(`
       <main class="game container">
         <div class="score-container">
@@ -59,9 +65,12 @@ function main() {
           |
           <p class="score-visitant">0</p>
           <span class="score-team">RSA</span>  
-          <img id="machine-country" src="./images/south-africa.png">  
+          <img id="machine-country" src="./images/south-africa.png">
+          <p class="score-diff-level">Difficulty level: <strong>${diffLevel}</strong></p>
         </div>
-        <img class="img-game" src="./images/logo.png">
+        <div class="game-logo-container">
+          <img class="game-logo" src="./images/logo.png">
+        </div>
         <div class="canvas-container">
           <canvas></canvas>
         </div>
@@ -82,9 +91,12 @@ function main() {
   function createGameOverScreen(score, isWin, country) {
     if (isWin === true) {
       gameOverScreen = buildDom(`
-        <main class="container">
+        <main class="container game-over">
+          <div class="game-logo-container">
+            <img class="game-logo" src="./images/logo.png">
+          </div>
           <section class="results-container">
-            <h2>YOU WIN!!</h2>
+            <!--<h2>YOU WIN!!</h2>-->
             <div class="score-container final-score">
               <img id="player-country" src="${country.iconFlagPath}">
               <span class="score-team">${country.name}</span> 
@@ -101,9 +113,13 @@ function main() {
       `);
     } else {
       gameOverScreen = buildDom(`
-        <main class="container">
-          <h2>GAME OVER</h2>
+        <main class="container game-over">
+          <div class="game-logo-container">
+              <img class="game-logo" src="./images/logo.png">
+            </div>
           <section class="results-container">
+            <!--<h2>GAME OVER</h2>-->
+            <!--<img class="gif-flag" src="${country.gifFlagPath}">-->
             <div class="score-container final-score">
               <img id="player-country" src="${country.iconFlagPath}">
               <span class="score-team">${country.name}</span> 
@@ -138,41 +154,60 @@ function main() {
         return {
           name: 'ENG',
           iconFlagPath: './images/england.png',
-          nationalAnthem: './sounds/god-save-the-queen.mp3'
+          gifFlagPath: './images/englandGif.gif',
+          nationalAnthem: './sounds/god-save-the-queen.mp3',
+          winned: 0,
+          lost: 0,
         }
       case 'France':
         return {
           name: 'FRA',
           iconFlagPath: './images/france.png',
-          nationalAnthem: './sounds/la-marseillaise.mp3'
+          gifFlagPath: './images/franceGif.gif',
+          nationalAnthem: './sounds/la-marseillaise.mp3',
+          winned: 0,
+          lost: 0,
         }
       case 'New Zealand':
-      return {
-        name: 'NZ',
-        iconFlagPath: './images/new-zealand.png'
-      }
+        return {
+          name: 'NZ',
+          iconFlagPath: './images/new-zealand.png',
+          gifFlagPath: './images/NZGif.gif',
+          nationalAnthem: './sounds/la-marseillaise.mp3',
+          winned: 0,
+          lost: 0,
+        }
       case 'Wales':
-      return {
-        name: 'WAL',
-        iconFlagPath: './images/wales.png'
-      }
+        return {
+          name: 'WAL',
+          iconFlagPath: './images/wales.png',
+          gifFlagPath: './images/walesGif.gif',
+          nationalAnthem: './sounds/la-marseillaise.mp3',
+          winned: 0,
+          lost: 0,
+        }
     }
   }
 
   // set the game state
   function startGame(country) {
 
-    var select_id = document.getElementById("countries");
-    var countrySelected = select_id.value;
-    countryInfo = getCountry(countrySelected);
-    removeSplashScreen();
+    var countrySelector = document.getElementById("countries-selector");
+    var selCountry = countrySelector.value;
+    countryInfo = getCountry(selCountry);
+
+    var difficultySelector = document.getElementById("difficulty-selector");
+    var diffLevel = difficultySelector.value;
     console.log('game started!');
 
-    game = new Game();
-    game.gameScreen = createGameScreen(countryInfo);
+    whistleSound.play();
+    removeSplashScreen();
+
+    game = new Game(diffLevel);
+    game.gameScreen = createGameScreen(countryInfo, diffLevel);
 
     // Start the game
-    whistleSound.play();
+
     game.start();
 
     // End the game
