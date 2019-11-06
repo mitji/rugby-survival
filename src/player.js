@@ -34,6 +34,7 @@ Player.prototype.setDirection = function(direction) {
 
 
 Player.prototype.resetPosition = function() {
+  this.speed = 4;
   this.x = this.canvas.width / 4;
   this.y = this.canvas.height / 2;
 };

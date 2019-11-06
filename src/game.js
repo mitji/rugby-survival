@@ -17,8 +17,9 @@ function Game(difficulty) {
   this.isBallKicked = false; // for the drop (maybe for tackle, try, and drop messages)
   this.gameIsOver = false;
   this.isWin = false;
+  this.kicksCounter = 0;
+  this.kicksAllowed = 2;
   this.speedArr = []; // store all speeds to reassign it after the kick
-  //this.isGameStarted = false; --> for the referee sound
 }
 
 Game.prototype.start = function() {
@@ -46,6 +47,7 @@ Game.prototype.start = function() {
   this.defenders = [this.defender1, this.defender2, this.defender3];
   
   if (this.difficulty === '3' || this.difficulty === '4') {
+    this.kicksAllowed = 4;
     this.defender4 = new Defender(this.canvas, this.canvas.width/2 + 150, this.canvas.height/2 + 250);
     this.defenders.push(this.defender4);
   } 
@@ -64,6 +66,13 @@ Game.prototype.start = function() {
     this.speedArr[i] = defender.speed;
   }.bind(this))
 
+  // add kicks in score
+  var score = this.gameScreen.querySelector('.score-container');
+  var numKicksContainer = document.createElement('p');
+  numKicksContainer.classList.add('score-kicks');
+  score.appendChild(numKicksContainer);
+  numKicksContainer.innerHTML = `Kicks: <strong>${this.kicksAllowed}</strong>`;
+
   // Create a callback for keydown
   this.handleKeyDown = function(event) {
     if (event.key === 'ArrowUp') {  
@@ -77,8 +86,12 @@ Game.prototype.start = function() {
     } else if (event.code === 'Space') {
       this.player.speed += 5;
     } else if (event.key === 'd') {
-      console.log('ball kicked!')
-      this.isBallKicked = true;
+      this.kicksCounter+=1;
+      if (this.kicksCounter <= this.kicksAllowed) {
+        this.isBallKicked = true;
+        numKicksContainer.innerHTML = `Kicks: <strong>${this.kicksAllowed-this.kicksCounter}</strong>`;
+        console.log('ball kicked!');
+      }
     }
   }
   this.handleKeyUp = function(event) {
@@ -99,7 +112,7 @@ Game.prototype.start = function() {
 
   document.body.addEventListener('keydown', this.handleKeyDown.bind(gameReference));
   document.body.addEventListener('keyup', this.handleKeyUp.bind(gameReference));
-  
+
   // Start the game loop
   this.startLoop();
 };
@@ -114,12 +127,13 @@ Game.prototype.startLoop = function() {
     
     this.handlePlayerPosition();
     this.handleBall();
+    console.log(this.ball.x, this.ball.y);
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     
     this.player.draw();
-    //if (this.isBallKicked) {
+    if (this.isBallKicked) {
       this.ball.draw();
-    //}
+    }
     this.defenders.forEach( function(defender) {
       defender.draw();
     });
@@ -275,28 +289,30 @@ Game.prototype.checkTackle = function() {
 // Ball functions
 Game.prototype.handleBall = function() {
   if (this.isBallKicked === true) {
-    console.log('in')
+    this.player.speed = 0;
     this.ball.directionX = 1;
+    
     if (this.ball.y < this.canvas.height/2) { 
       this.ball.directionY = 1;
     } else if (this.ball.y > this.canvas.height/2) { 
       this.ball.directionY = -1;
     }
+
     // apply tales theorem
-    var a = Math.abs(this.canvas.height/2- (this.canvas.height - this.ball.y));
+    var a = Math.abs((this.canvas.height/2) - (this.canvas.height - this.ball.y));
     var c = Math.abs(this.canvas.width - 80 - this.ball.x);
-    var d = this.ball.x + this.ball.speed * this.ball.directionX;
+    var d = this.ball.speed;
     var b = (a*d)/c;
 
-    this.ball.x = this.ball.x + d*this.ball.directionX;
+    this.ball.x = this.ball.x + this.ball.speed;
     this.ball.y = this.ball.y + b*this.ball.directionY;
 
     // score kick (named 'drop goal')
-    if(this.ball.x >= this.ball.canvas.width - 70) {
+    if(this.ball.x > this.canvas.width - 70) {
       this.isBallKicked = false;
       console.log('goal!!');
       this.player.resetPosition();
-      this.defenseResetPosition();
+      //this.defenseResetPosition();
       this.scorePlayer += 3;
       var spanLocalScore = document.querySelector('.score-local');
       spanLocalScore.innerHTML = this.scorePlayer;

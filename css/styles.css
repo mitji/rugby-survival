@@ -134,6 +134,10 @@ form {
 }
 .score-diff-level {
   position: absolute;
+  right: 90px;
+}
+.score-kicks {
+  position: absolute;
   right: 20px;
 }
 

@@ -3,7 +3,7 @@
 function Ball(canvas) {
   this.canvas = canvas;
   this.ctx = this.canvas.getContext('2d');
-  this.size = 20;
+  this.size = 10;
   this.x = canvas.width / 4;
   this.y = canvas.height / 2;
   this.directionX = 0; // initialise direction to the right
