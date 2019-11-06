@@ -155,7 +155,7 @@ canvas {
 .game-over .game-logo-container {
   position: absolute;
   align-self: center;
-  margin-top: -145px;
+  margin-top: -294px;
   margin-left: 0;
 }
 .game-over  .game-logo {
@@ -172,11 +172,13 @@ canvas {
   background-color: #00343c;
   opacity: 0.8;
   color: white;
+  margin-top: 50px;
 }
 h2 {
   margin-top: 40px;
   margin-bottom: 40px;
   color: white;
+  align-self: flex-start;
 }
 .gif-flag {
   width: 215px;
@@ -205,3 +207,19 @@ h2 {
 .results-container .score-local, .results-container .score-visitant {
   width: 65px;
 }
+.classification-container {
+  display: flex;
+  flex-direction: column;
+  width: 433px;
+}
+tbody > tr {
+  height: 30px;
+}
+th {
+  border-bottom: 1px solid white;
+  padding: 0 10px;
+}
+td {
+  padding: 10px 0;
+}
+

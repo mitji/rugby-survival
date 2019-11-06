@@ -20,46 +20,55 @@ function main() {
   var nationalAnthem = new Audio(); 
   var countries = [
     {
-          name: 'ENG',
-          iconFlagPath: './images/england.png',
-          gifFlagPath: './images/englandGif.gif',
-          nationalAnthem: './sounds/god-save-the-queen.mp3',
-          winned: 0,
-          lost: 0,
-        },
-        {
-          name: 'FRA',
-          iconFlagPath: './images/france.png',
-          gifFlagPath: './images/franceGif.gif',
-          nationalAnthem: './sounds/la-marseillaise.mp3',
-          winned: 0,
-          lost: 0,
-        },
-        {
-          name: 'NZ',
-          iconFlagPath: './images/new-zealand.png',
-          gifFlagPath: './images/NZGif.gif',
-          nationalAnthem: './sounds/la-marseillaise.mp3',
-          winned: 0,
-          lost: 0,
-        },
-        {
-          name: 'WAL',
-          iconFlagPath: './images/wales.png',
-          gifFlagPath: './images/walesGif.gif',
-          nationalAnthem: './sounds/la-marseillaise.mp3',
-          winned: 0,
-          lost: 0,
-        },
-        {
-        name: 'RSA',
-        iconFlagPath: './images/south-africa.png',
-        gifFlagPath: './images/walesGif.gif',
-        nationalAnthem: './sounds/la-marseillaise.mp3',
-        winned: 0,
-        lost: 0,
-      }
-  ]
+      name: 'ENG',
+      iconFlagPath: './images/england.png',
+      gifFlagPath: './images/englandGif.gif',
+      nationalAnthem: './sounds/god-save-the-queen.mp3',
+      winned: 0,
+      lost: 0,
+    },
+    {
+      name: 'FRA',
+      iconFlagPath: './images/france.png',
+      gifFlagPath: './images/franceGif.gif',
+      nationalAnthem: './sounds/la-marseillaise.mp3',
+      winned: 0,
+      lost: 0,
+    },
+    {
+      name: 'NZ',
+      iconFlagPath: './images/new-zealand.png',
+      gifFlagPath: './images/NZGif.gif',
+      nationalAnthem: './sounds/la-marseillaise.mp3',
+      winned: 0,
+      lost: 0,
+    },
+    {
+      name: 'WAL',
+      iconFlagPath: './images/wales.png',
+      gifFlagPath: './images/walesGif.gif',
+      nationalAnthem: './sounds/la-marseillaise.mp3',
+      winned: 0,
+      lost: 0,
+    },
+    {
+      name: 'RSA',
+      iconFlagPath: './images/south-africa.png',
+      gifFlagPath: './images/walesGif.gif',
+      nationalAnthem: './sounds/la-marseillaise.mp3',
+      winned: 0,
+      lost: 0,
+    } 
+  ];
+  
+  // Stringify the data before storing in localStorage  
+  const countriesStringified = JSON.stringify(countries);
+  // Save the data to the localStorage  
+  localStorage.setItem('countries', countriesStringified);
+  
+  // Retrieve the stored data from local storage  
+  const countriesRetrieved = localStorage.getItem('countries');
+  const countriesParsed = JSON.parse(countriesRetrieved);
 
   // splash screen
 
@@ -127,7 +136,6 @@ function main() {
         </div>
       </main>
     `);
-
      
     document.body.appendChild(gameScreen);
     return gameScreen;
@@ -140,56 +148,99 @@ function main() {
   // game over screen
 
   function createGameOverScreen(score, isWin, playerCountry, machineCountry) {
+
+    // Take winner team
+    var indexOfPlayer = countries.map( function(country) { 
+      return country.name; 
+    }).indexOf(playerCountry.name);
+
+    // Take looser team
+    var indexOfMachine = countries.map( function(country) { 
+      return country.name; 
+    }).indexOf(machineCountry.name);
+
+    // Add win or lost
     if (isWin === true) {
-      gameOverScreen = buildDom(`
-        <main class="container game-over">
-          <div class="game-logo-container">
-            <img class="game-logo" src="./images/logo.png">
-          </div>
-          <section class="results-container">
-            <!--<h2>YOU WIN!!</h2>-->
-            <div class="score-container final-score">
-              <img id="player-country" src="${playerCountry.iconFlagPath}">
-              <span class="score-team">${playerCountry.name}</span> 
-              <p class="score-local">${score[0]}</p> 
-              |
-              <p class="score-visitant">${score[1]}</p>
-              <span class="score-team">${machineCountry.name}</span>    
-              <img id="machine-country" src="${machineCountry.iconFlagPath}">  
-            </div>
-          </section>
-          
-          <button>PLAY AGAIN!</button>
-        </main>
-      `);
+      countriesParsed[indexOfPlayer].winned += 1;
+      countriesParsed[indexOfMachine].lost += 1;
+
       nationalAnthem.src = playerCountry.nationalAnthem; 
     } else {
-      gameOverScreen = buildDom(`
-        <main class="container game-over">
-          <div class="game-logo-container">
-              <img class="game-logo" src="./images/logo.png">
-            </div>
-          <section class="results-container">
-            <!--<h2>GAME OVER</h2>-->
-            <!--<img class="gif-flag" src="${playerCountry.gifFlagPath}">-->
-            <div class="score-container final-score">
-              <img id="player-country" src="${playerCountry.iconFlagPath}">
-              <span class="score-team">${playerCountry.name}</span> 
-              <p class="score-local">${score[0]}</p> 
-              |
-              <p class="score-visitant">${score[1]}</p>
-              <span class="score-team">${machineCountry.name}</span>    
-              <img id="machine-country" src="${machineCountry.iconFlagPath}">  
-            </div>
-          </section>
-          <button>PLAY AGAIN!</button>
-        </main>
-      `);
+      countriesParsed[indexOfPlayer].lost += 1;
+      countriesParsed[indexOfMachine].winner += 1;
+
       nationalAnthem.src = machineCountry.nationalAnthem; 
     }
-    
+
+    // Update classification
+    var classification = countriesParsed.sort( function(a, b) {
+      return b.winned - a.winned
+    });
+    console.log(classification);
+
+    // Stringify again and set new item
+    const newStringifiedCountries = JSON.stringify(countriesParsed);
+    localStorage.setItem('countries', newStringifiedCountries);
+
+    gameOverScreen = buildDom(`
+      <main class="container game-over">
+        <div class="game-logo-container">
+          <img class="game-logo" src="./images/logo.png">
+        </div>
+        <section class="results-container">
+          <!--<h2>YOU WIN!!</h2>-->
+          <div class="score-container final-score">
+            <img id="player-country" src="${playerCountry.iconFlagPath}">
+            <span class="score-team">${playerCountry.name}</span> 
+            <p class="score-local">${score[0]}</p> 
+            |
+            <p class="score-visitant">${score[1]}</p>
+            <span class="score-team">${machineCountry.name}</span>    
+            <img id="machine-country" src="${machineCountry.iconFlagPath}">  
+          </div>
+          <div class="classification-container">
+            <h2>Classification</h2>
+            <table>
+              <tr>
+                <th>Country</th>
+                <th>Games winned</th>
+                <th>Games lost</th>
+              </tr>
+              <tr>
+                <td>${classification[0].name}</td>
+                <td>${classification[0].winned}</td>
+                <td>${classification[0].lost}</td>
+              </tr>
+              <tr>
+                <td>${classification[1].name}</td>
+                <td>${classification[1].winned}</td>
+                <td>${classification[1].lost}</td>
+              </tr>
+              <tr>
+                <td>${classification[2].name}</td>
+                <td>${classification[2].winned}</td>
+                <td>${classification[2].lost}</td>
+              </tr>
+              <tr>
+                <td>${classification[3].name}</td>
+                <td>${classification[3].winned}</td>
+                <td>${classification[3].lost}</td>
+              </tr>
+              <tr>
+                <td>${classification[4].name}</td>
+                <td>${classification[4].winned}</td>
+                <td>${classification[4].lost}</td>
+              </tr>
+            </table>
+          </div>
+        </section>
+        
+        <button>PLAY AGAIN!</button>
+      </main>
+    `);
+  
+    console.log(newStringifiedCountries);   
     document.body.appendChild(gameOverScreen);
-    
     
     nationalAnthem.play();
     var playBtn = gameOverScreen.querySelector('button');
