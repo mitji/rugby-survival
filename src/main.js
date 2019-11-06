@@ -18,6 +18,48 @@ function main() {
   var whistleSound = new Audio();         // create the audio
   whistleSound.src = "./sounds/whistle.wav";   
   var nationalAnthem = new Audio(); 
+  var countries = [
+    {
+          name: 'ENG',
+          iconFlagPath: './images/england.png',
+          gifFlagPath: './images/englandGif.gif',
+          nationalAnthem: './sounds/god-save-the-queen.mp3',
+          winned: 0,
+          lost: 0,
+        },
+        {
+          name: 'FRA',
+          iconFlagPath: './images/france.png',
+          gifFlagPath: './images/franceGif.gif',
+          nationalAnthem: './sounds/la-marseillaise.mp3',
+          winned: 0,
+          lost: 0,
+        },
+        {
+          name: 'NZ',
+          iconFlagPath: './images/new-zealand.png',
+          gifFlagPath: './images/NZGif.gif',
+          nationalAnthem: './sounds/la-marseillaise.mp3',
+          winned: 0,
+          lost: 0,
+        },
+        {
+          name: 'WAL',
+          iconFlagPath: './images/wales.png',
+          gifFlagPath: './images/walesGif.gif',
+          nationalAnthem: './sounds/la-marseillaise.mp3',
+          winned: 0,
+          lost: 0,
+        },
+        {
+        name: 'RSA',
+        iconFlagPath: './images/south-africa.png',
+        gifFlagPath: './images/walesGif.gif',
+        nationalAnthem: './sounds/la-marseillaise.mp3',
+        winned: 0,
+        lost: 0,
+      }
+  ]
 
   // splash screen
 
@@ -196,50 +238,15 @@ function main() {
   function getCountry(country) {
     switch (country) {
       case 'England':
-        return {
-          name: 'ENG',
-          iconFlagPath: './images/england.png',
-          gifFlagPath: './images/englandGif.gif',
-          nationalAnthem: './sounds/god-save-the-queen.mp3',
-          winned: 0,
-          lost: 0,
-        }
+        return countries[0]
       case 'France':
-        return {
-          name: 'FRA',
-          iconFlagPath: './images/france.png',
-          gifFlagPath: './images/franceGif.gif',
-          nationalAnthem: './sounds/la-marseillaise.mp3',
-          winned: 0,
-          lost: 0,
-        }
+        return countries[1]
       case 'New Zealand':
-        return {
-          name: 'NZ',
-          iconFlagPath: './images/new-zealand.png',
-          gifFlagPath: './images/NZGif.gif',
-          nationalAnthem: './sounds/la-marseillaise.mp3',
-          winned: 0,
-          lost: 0,
-        }
+        return countries[2]
       case 'Wales':
-        return {
-          name: 'WAL',
-          iconFlagPath: './images/wales.png',
-          gifFlagPath: './images/walesGif.gif',
-          nationalAnthem: './sounds/la-marseillaise.mp3',
-          winned: 0,
-          lost: 0,
-        }
+        return countries[3]
       case 'South Africa':
-      return {
-        name: 'RSA',
-        iconFlagPath: './images/south-africa.png',
-        gifFlagPath: './images/walesGif.gif',
-        nationalAnthem: './sounds/la-marseillaise.mp3',
-        winned: 0,
-        lost: 0,
-      }
+        return countries[4]
     }
   }
   // initialise Splash screen on initial start

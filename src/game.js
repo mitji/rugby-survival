@@ -20,6 +20,8 @@ function Game(difficulty) {
   this.kicksCounter = 0;
   this.kicksAllowed = 2;
   this.speedArr = []; // store all speeds to reassign it after the kick
+  // this.playerCountry = playerCountry;
+  // this.machineCountry = machineCountry;
 }
 
 Game.prototype.start = function() {
