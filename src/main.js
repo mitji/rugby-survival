@@ -233,7 +233,7 @@ function main() {
         }
       case 'South Africa':
       return {
-        name: 'WAL',
+        name: 'RSA',
         iconFlagPath: './images/south-africa.png',
         gifFlagPath: './images/walesGif.gif',
         nationalAnthem: './sounds/la-marseillaise.mp3',
