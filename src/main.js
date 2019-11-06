@@ -31,12 +31,14 @@ function main() {
           <option value="France">France</option>
           <option value="New Zealand">New Zealand</option>
           <option value="Wales">Wales</option>
+          <option value="South Africa">South Africa</option>
         </select>
         <select id="country-selector__machine">
           <option value="England">England</option>
           <option value="France">France</option>
           <option value="New Zealand">New Zealand</option>
           <option value="Wales">Wales</option>
+          <option value="South Africa" selected="selected">South Africa</option>
         </select>
         <select id="difficulty-selector">
           <option value="1">Level 1</option>
@@ -229,6 +231,15 @@ function main() {
           winned: 0,
           lost: 0,
         }
+      case 'South Africa':
+      return {
+        name: 'WAL',
+        iconFlagPath: './images/south-africa.png',
+        gifFlagPath: './images/walesGif.gif',
+        nationalAnthem: './sounds/la-marseillaise.mp3',
+        winned: 0,
+        lost: 0,
+      }
     }
   }
   // initialise Splash screen on initial start
