@@ -18,6 +18,7 @@ function main() {
   var whistleSound = new Audio();         // create the audio
   whistleSound.src = "./sounds/whistle.wav";   
   var nationalAnthem = new Audio(); 
+  var classification;
   var countriesInit = [
     {
       name: 'ENG',
@@ -55,7 +56,7 @@ function main() {
       name: 'RSA',
       iconFlagPath: './images/south-africa.png',
       gifFlagPath: './images/walesGif.gif',
-      nationalAnthem: './sounds/la-marseillaise.mp3',
+      nationalAnthem: './sounds/sa.mp3',
       winned: 0,
       lost: 0,
     } 
@@ -184,7 +185,7 @@ function main() {
     }
 
     // Update classification
-    var classification = countriesParsed.sort( function(a, b) {
+    classification = countriesParsed.sort( function(a, b) {
       return b.winned - a.winned;
     });
     console.log(classification);
@@ -255,24 +256,24 @@ function main() {
     nationalAnthem.play();
 
     var resetBtn = document.body.querySelector('.reset-btn');
-    // resetBtn.addEventListener('click', function() {
-    //   localStorage.clear();
+    resetBtn.addEventListener('click', function() {
+      
+      console.log('in')
+      countriesParsed.forEach( function(country) {
+        country.winned = 0;
+        country.lost = 0;
+      })      
+      classification = countriesParsed;
+      // Update classification
       // classification.forEach( function(element) {
       //   element.winned = 0;
       //   element.lost = 0;
       // })
-      // console.log('in')
-      // localStorage.setItem('countries', countriesStringified);
-      // countries.forEach( function(country) {
-      //   country.winned = 0;
-      //   country.lost = 0;
-      // });
-      // Update classification
       // var classification = countriesParsed.sort( function(a, b) {
       //   return b.winned - a.winned;
       // });
-    //   console.log(classification);
-    // });
+      console.log(classification);
+    });
 
     var playBtn = gameOverScreen.querySelector('.play-btn');
     playBtn.addEventListener('click', removeGameOverScreen);

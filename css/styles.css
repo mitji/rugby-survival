@@ -7,13 +7,13 @@ html {
 }
 
 body {
-  font-family: sans-serif;
   background-image: url('../images/background.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: 'Titillium Web', sans-serif;
 }
 
 button {
@@ -272,7 +272,7 @@ canvas {
 .game-over .game-logo-container {
   position: absolute;
   align-self: center;
-  margin-top: -325px;
+  margin-top: -310px;
   margin-left: 0;
 }
 .game-over  .game-logo {
@@ -295,10 +295,6 @@ h2 {
   margin-bottom: 40px;
   color: white;
   align-self: flex-start;
-}
-.gif-flag {
-  width: 215px;
-  margin-bottom: 30px;
 }
 .results-container .score-container {
   justify-content: center;
@@ -326,11 +322,11 @@ h2 {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-  width: 342px;
-  padding: 30px;
-  margin-top: 40px;
-  border: 1px solid white;
-  border-radius: 5px;
+  width: 400px;
+  margin-top: 50px; 
+}
+.classification-container h2 {
+  margin: 0 0 15px 15px;
 }
 .reset-btn {
   justify-self: flex-end;
@@ -339,13 +335,21 @@ h2 {
   border: none;
   padding: 5px;
   width: 135px;
-  margin-bottom: 40px;
+  margin: 0 15px 15px 0;
   outline: none;
   cursor: pointer;
+  border-radius: 5px;
   transition: 0.3s;
 }
 .reset-btn:hover {
   font-weight: bold;
+}
+table {
+  width: 100%;
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 30px;
+  box-shadow: 0px 0px 15px 0px rgba(255, 255, 255, 0.25);
 }
 tbody > tr {
   height: 30px;
@@ -355,7 +359,7 @@ th {
   padding: 0 10px;
 }
 td {
-  padding: 10px 0;
+  padding: 4px 0;
 }
 
 .play-again {
