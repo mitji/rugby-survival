@@ -129,11 +129,11 @@ Game.prototype.startLoop = function() {
     
     this.handlePlayerPosition();
     this.handleBall();
-    console.log(this.ball.x, this.ball.y);
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     
     this.player.draw();
     if (this.isBallKicked) {
+      this.checkBallCollision();
       this.ball.draw();
     }
     this.defenders.forEach( function(defender) {
@@ -314,7 +314,7 @@ Game.prototype.handleBall = function() {
       this.isBallKicked = false;
       console.log('goal!!');
       this.player.resetPosition();
-      //this.defenseResetPosition();
+      this.defenseResetPosition();
       this.scorePlayer += 3;
       var spanLocalScore = document.querySelector('.score-local');
       spanLocalScore.innerHTML = this.scorePlayer;
@@ -323,6 +323,39 @@ Game.prototype.handleBall = function() {
     this.ball.x = this.player.x;
     this.ball.y = this.player.y;
   }
+}
+
+Game.prototype.checkBallCollision = function() {
+  this.defenders.forEach( function(defender) {
+    var ballLeft = this.ball.x;
+    var ballRight = this.ball.x + this.ball.size;
+    var ballTop = this.ball.y;
+    var ballBottom = this.ball.y + this.ball.size;
+
+    var defenderLeft = defender.x;
+    var defenderRight = defender.x + defender.size;
+    var defenderTop = defender.y;
+    var defenderBottom = defender.y + defender.size;
+
+    // Check if the defender intercepts ball
+    var crossLeft = defenderLeft <= ballRight && defenderLeft >= ballLeft;
+      
+    var crossRight = defenderRight >= ballLeft && defenderRight <= ballRight;
+    
+    var crossBottom = defenderBottom >= ballTop && defenderBottom <= ballBottom;
+    
+    var crossTop = defenderTop <= ballBottom && defenderTop >= ballTop;
+
+    if ((crossLeft || crossRight) && (crossTop || crossBottom)) {
+      this.isBallKicked = false;
+      this.scoreOpposition += 3;
+      this.defenseResetPosition();
+      this.player.resetPosition();
+      var spanVisitantScore = document.querySelector('.score-visitant');
+      spanVisitantScore.innerHTML = this.scoreOpposition;
+      console.log('ball intercepted by defense')
+    }
+  }, this);
 }
 
 Game.prototype.updateMatchScore = function() {

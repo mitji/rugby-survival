@@ -63,9 +63,7 @@ function main() {
   
   // Stringify the data before storing in localStorage  
   const countriesStringified = JSON.stringify(countries);
-  // Save the data to the localStorage  
   localStorage.setItem('countries', countriesStringified);
-  
   // Retrieve the stored data from local storage  
   const countriesRetrieved = localStorage.getItem('countries');
   const countriesParsed = JSON.parse(countriesRetrieved);
@@ -98,14 +96,24 @@ function main() {
           <option value="4">Level 4</option>
         </select>
       </form>
-      <button>PLAY!</button>
+      <button class="instructions-btn">
+        <span class="instructions-btn-text">Instructions</span>
+      </button>
+      <button class="play-btn">PLAY!</button>
     </main>
     `);
 
     document.body.appendChild(splashScreen);
 
-    var playBtn = splashScreen.querySelector('button');
+    var playBtn = splashScreen.querySelector('.play-btn');
     playBtn.addEventListener('click', startGame);
+
+    var instructionsBtn = splashScreen.querySelector('.instructions-btn');
+    instructionsBtn.addEventListener('click', function() {
+      var instructionsContainer = document.body.querySelector('.instructions');
+      instructionsContainer.classList.remove('not-visible');
+      instructionsContainer.classList.add('visible');
+    })
   };
 
   function removeSplashScreen() {
@@ -167,14 +175,14 @@ function main() {
       nationalAnthem.src = playerCountry.nationalAnthem; 
     } else {
       countriesParsed[indexOfPlayer].lost += 1;
-      countriesParsed[indexOfMachine].winner += 1;
+      countriesParsed[indexOfMachine].winned += 1;
 
       nationalAnthem.src = machineCountry.nationalAnthem; 
     }
 
     // Update classification
     var classification = countriesParsed.sort( function(a, b) {
-      return b.winned - a.winned
+      return b.winned - a.winned;
     });
     console.log(classification);
 
@@ -188,7 +196,6 @@ function main() {
           <img class="game-logo" src="./images/logo.png">
         </div>
         <section class="results-container">
-          <!--<h2>YOU WIN!!</h2>-->
           <div class="score-container final-score">
             <img id="player-country" src="${playerCountry.iconFlagPath}">
             <span class="score-team">${playerCountry.name}</span> 
@@ -200,6 +207,7 @@ function main() {
           </div>
           <div class="classification-container">
             <h2>Classification</h2>
+            <button class="reset-btn">Reset classification</button>
             <table>
               <tr>
                 <th>Country</th>
@@ -235,17 +243,36 @@ function main() {
           </div>
         </section>
         
-        <button>PLAY AGAIN!</button>
+        <button class="play-btn">PLAY AGAIN!</button>
       </main>
     `);
   
-    console.log(newStringifiedCountries);   
     document.body.appendChild(gameOverScreen);
     
     nationalAnthem.play();
-    var playBtn = gameOverScreen.querySelector('button');
+
+    var resetBtn = document.body.querySelector('.reset-btn');
+    resetBtn.addEventListener('click', function() {
+      console.log(countries);
+      //localStorage.clear();
+      // console.log('in')
+      // localStorage.setItem('countries', countriesStringified);
+      // countries.forEach( function(country) {
+      //   country.winned = 0;
+      //   country.lost = 0;
+      // });
+      // Update classification
+      // var classification = countriesParsed.sort( function(a, b) {
+      //   return b.winned - a.winned;
+      // });
+      console.log(classification);
+      console.log(countries);
+    });
+
+    var playBtn = gameOverScreen.querySelector('.play-btn');
     playBtn.addEventListener('click', removeGameOverScreen);
-  };
+  }
+
   function removeGameOverScreen() {
     nationalAnthem.pause();
     gameOverScreen.remove();

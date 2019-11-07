@@ -11,9 +11,106 @@ body {
   background-image: url('../images/background.jpg');
   background-size: cover;
   background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* ---- components ---- */
+.instructions {
+  position: absolute;
+  padding: 40px;
+  opacity: 0.95;
+  background-color: #042436;
+  color: #f5f5f5;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+.visible {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.not-visible {
+  display: none;
+}
+.close-btn {
+  position: absolute;
+  top: 80px;
+  right: 80px;
+  border: none;
+  outline: none;
+  cursor: none;
+  background: transparent;
+}
+.close-img {
+  width: 40px;
+  cursor: pointer;
+}
+.instructions h2 {
+  align-self: center;
+}
+.instructions__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 70px 0;
+  width: 45%;
+  border: 1px solid #f5f5f5;
+  border-radius: 5px;
+}
+.instructions__instruction {
+  display: flex;
+  flex-direction: row;
+  width: 300px;
+  margin-bottom: 20px;
+}
+.instructions__instruction:last-child {
+  margin-bottom: 0;
+}
+.instructions__instruction p {
+  display: flex;
+  align-items: center;
+  margin-left: 30px;
+}
+.key-span {
+  width: 15%;
+}
+.arrow-keys {
+  width: 50px;
+}
+.key-1 {
+  width: 25px;
+  border-radius: 5px;
+}
+.key-2 {
+  width: 42px;
+  border-radius: 5px;
+}
+.rules {
+  width: 305px;
+  margin-top: 40px;
+}
+.rules h2 {
+  align-self: flex-start;
+  color: bisque;
+  color: #b96400;
+  margin-bottom: 20px;
+  /* text-decoration: underline; */
+}
+.rules ul {
+  margin-left: 35px;
+}
+.rules ul li {
+  padding: 10px 0;
+}
+.limited-kicks {
+  padding-bottom: 8px;
+  color: #b5b5b5;
+  font-weight: 100;
+}
 
 main {
   display: flex;
@@ -21,11 +118,30 @@ main {
   justify-content: center;
   text-align: center;
   height: 100vh;
+  width: 100%;
 }
 main h1 {
   margin-bottom: 100px;
 }
-main button {
+.instructions-btn {
+  outline: none;
+  background: transparent;
+  padding-bottom: 10px;
+  border: none;
+  width: 100px;
+  align-self: center;
+  transition: 0.3s;
+
+}
+.instructions-btn:hover {
+  font-weight: bold;
+}
+.instructions-btn-text{
+  font-size: 16px;
+  color: #042436;
+  cursor: pointer;
+}
+.play-btn {
   width: 200px;
   padding: 15px;
   align-self: center;
@@ -42,12 +158,10 @@ main button {
   color: white;
   box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.75);
 }
-main button:hover {
+.play-btn:hover {
   box-shadow: none;
   background-color: #00252b;
   box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.75);
-  /* border: 5px solid #000080bd;
-  color: #000080bd; */
 }
 form {
   margin-bottom: 55px;
@@ -155,7 +269,7 @@ canvas {
 .game-over .game-logo-container {
   position: absolute;
   align-self: center;
-  margin-top: -294px;
+  margin-top: -325px;
   margin-left: 0;
 }
 .game-over  .game-logo {
@@ -170,12 +284,11 @@ canvas {
   margin-bottom: 30px;
   padding: 60px 0;
   background-color: #00343c;
-  opacity: 0.8;
+  opacity: 0.85;
   color: white;
   margin-top: 50px;
 }
 h2 {
-  margin-top: 40px;
   margin-bottom: 40px;
   color: white;
   align-self: flex-start;
@@ -185,7 +298,6 @@ h2 {
   margin-bottom: 30px;
 }
 .results-container .score-container {
-  /* background-color: #000506; */
   justify-content: center;
   opacity: 1;
   font-size: 35px;
@@ -209,8 +321,24 @@ h2 {
 }
 .classification-container {
   display: flex;
-  flex-direction: column;
-  width: 433px;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  width: 342px;
+  padding: 30px;
+  margin-top: 40px;
+  border: 1px solid white;
+  border-radius: 5px;
+}
+.reset-btn {
+  justify-self: flex-end;
+  background-color: transparent;
+  color: white;
+  border: none;
+  width: 108px;
+  margin-bottom: 40px;
+
+  outline: none;
+  cursor: pointer;
 }
 tbody > tr {
   height: 30px;

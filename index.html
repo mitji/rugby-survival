@@ -9,6 +9,45 @@
   <title>Rugby Survival</title>
 </head>
 <body>
+  <section class="instructions not-visible">
+    <button class="close-btn">
+      <img class="close-img" src="./images/close.png" alt="">
+    </button>
+    <div class="instructions__container">
+        <h2>Instructions</h2>
+        <div class="instructions__instruction">
+          <span class="key-span"><img class="arrow-keys" src="./images/arrow-keys.png" alt=""></span>
+          <p>Move player in all directions</p>
+        </div>
+        <div class="instructions__instruction">
+          <span class="key-span"><img class="key-1" src="./images/key-d.png" alt=""></span>
+          <p>Kick ball</p>
+        </div>
+        <div class="instructions__instruction">
+          <span class="key-span"><img class="key-2" src="./images/space-bar.png" alt=""></span>
+          <p>Sprint</p>
+        </div>
+    
+        <article class="rules">
+          <h2>Rules</h2>
+          <ul>
+            <li>Score try = <strong>5 points</strong> for player</li>
+            <li>Score kick = <strong>3 points</strong> for player</li>
+            <span class="limited-kicks">You have a limited ammount of kicks!</span>
+            <li>Tackle = <strong>5 points</strong> for defense</li>
+            <li>Intercept kick = <strong>3 points</strong> for defense</li>
+          </ul>    
+        </article>
+    </div>
+  </section>
+  <script>
+    var closeBtn = document.body.querySelector('.close-btn');
+    closeBtn.addEventListener('click', function() {
+      var instructionsContainer = document.body.querySelector('.instructions');
+      instructionsContainer.classList.remove('visible');
+      instructionsContainer.classList.add('not-visible');
+    })
+  </script>
   <script src="./src/main.js"></script>
   <script src="./src/game.js"></script>
   <script src="./src/player.js"></script>
