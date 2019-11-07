@@ -39,7 +39,7 @@ function main() {
       name: 'NZ',
       iconFlagPath: './images/new-zealand.png',
       gifFlagPath: './images/NZGif.gif',
-      nationalAnthem: './sounds/la-marseillaise.mp3',
+      nationalAnthem: './sounds/god-defend-nz.mp3',
       winned: 0,
       lost: 0,
     },
@@ -47,7 +47,7 @@ function main() {
       name: 'WAL',
       iconFlagPath: './images/wales.png',
       gifFlagPath: './images/walesGif.gif',
-      nationalAnthem: './sounds/la-marseillaise.mp3',
+      nationalAnthem: './sounds/wales.mp3',
       winned: 0,
       lost: 0,
     },
@@ -243,7 +243,7 @@ function main() {
           </div>
         </section>
         
-        <button class="play-btn">PLAY AGAIN!</button>
+        <button class="play-btn play-again">PLAY AGAIN!</button>
       </main>
     `);
   
@@ -254,7 +254,11 @@ function main() {
     var resetBtn = document.body.querySelector('.reset-btn');
     resetBtn.addEventListener('click', function() {
       console.log(countries);
-      //localStorage.clear();
+      localStorage.clear();
+      // classification.forEach( function(element) {
+      //   element.winned = 0;
+      //   element.lost = 0;
+      // })
       // console.log('in')
       // localStorage.setItem('countries', countriesStringified);
       // countries.forEach( function(country) {
