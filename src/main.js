@@ -18,7 +18,7 @@ function main() {
   var whistleSound = new Audio();         // create the audio
   whistleSound.src = "./sounds/whistle.wav";   
   var nationalAnthem = new Audio(); 
-  var countries = [
+  var countriesInit = [
     {
       name: 'ENG',
       iconFlagPath: './images/england.png',
@@ -60,13 +60,6 @@ function main() {
       lost: 0,
     } 
   ];
-  
-  // Stringify the data before storing in localStorage  
-  const countriesStringified = JSON.stringify(countries);
-  localStorage.setItem('countries', countriesStringified);
-  // Retrieve the stored data from local storage  
-  const countriesRetrieved = localStorage.getItem('countries');
-  const countriesParsed = JSON.parse(countriesRetrieved);
 
   // splash screen
 
@@ -156,14 +149,24 @@ function main() {
   // game over screen
 
   function createGameOverScreen(score, isWin, playerCountry, machineCountry) {
+    var countriesStringified = localStorage.getItem('countries');
+    var countriesParsed;
+    if(!countriesStringified) {
+      countriesParsed = countriesInit;
+    } else {
+
+      // Retrieve the stored data from local storage  
+      const countriesRetrieved = localStorage.getItem('countries');
+      countriesParsed = JSON.parse(countriesRetrieved);
+    }
 
     // Take winner team
-    var indexOfPlayer = countries.map( function(country) { 
+    var indexOfPlayer = countriesInit.map( function(country) {
       return country.name; 
     }).indexOf(playerCountry.name);
 
     // Take looser team
-    var indexOfMachine = countries.map( function(country) { 
+    var indexOfMachine = countriesInit.map( function(country) { 
       return country.name; 
     }).indexOf(machineCountry.name);
 
@@ -252,9 +255,8 @@ function main() {
     nationalAnthem.play();
 
     var resetBtn = document.body.querySelector('.reset-btn');
-    resetBtn.addEventListener('click', function() {
-      console.log(countries);
-      localStorage.clear();
+    // resetBtn.addEventListener('click', function() {
+    //   localStorage.clear();
       // classification.forEach( function(element) {
       //   element.winned = 0;
       //   element.lost = 0;
@@ -269,9 +271,8 @@ function main() {
       // var classification = countriesParsed.sort( function(a, b) {
       //   return b.winned - a.winned;
       // });
-      console.log(classification);
-      console.log(countries);
-    });
+    //   console.log(classification);
+    // });
 
     var playBtn = gameOverScreen.querySelector('.play-btn');
     playBtn.addEventListener('click', removeGameOverScreen);
@@ -320,15 +321,15 @@ function main() {
   function getCountry(country) {
     switch (country) {
       case 'England':
-        return countries[0]
+        return countriesInit[0]
       case 'France':
-        return countries[1]
+        return countriesInit[1]
       case 'New Zealand':
-        return countries[2]
+        return countriesInit[2]
       case 'Wales':
-        return countries[3]
+        return countriesInit[3]
       case 'South Africa':
-        return countries[4]
+        return countriesInit[4]
     }
   }
   // initialise Splash screen on initial start
