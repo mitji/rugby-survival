@@ -178,7 +178,8 @@ form {
   padding: 0 28px 0 24px;
   margin-bottom: 5px;
   box-sizing: border-box;
-
+  font-weight: 600;
+  color: white;
 }
 form select {
   width: 102px;
@@ -239,7 +240,7 @@ select:nth-of-type(2) {
   text-align: left;
   position: relative;
   background-color: #00343c;
-  opacity: 0.8;
+  opacity: 0.9;
   color: white;
 }
 .score-team {
