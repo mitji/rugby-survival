@@ -68,6 +68,11 @@ function main() {
     splashScreen = buildDom(`
     <main>
       <img class="img-splash" src="./images/logo.png">
+      <div class="selector-title">
+        <span>Your team</span>
+        <span>Machine team</span>
+        <span>Difficulty</span>
+      </div>
       <form class="selectors">
         <select id="country-selector__player">
           <option value="England">England</option>
