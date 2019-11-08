@@ -353,7 +353,7 @@ Game.prototype.checkBallCollision = function() {
       this.player.resetPosition();
       var spanVisitantScore = document.querySelector('.score-visitant');
       spanVisitantScore.innerHTML = this.scoreOpposition;
-      console.log('ball intercepted by defense')
+      console.log('ball intercepted by defense');
     }
   }, this);
 }

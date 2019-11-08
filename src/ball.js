@@ -6,7 +6,7 @@ function Ball(canvas) {
   this.size = 30;
   this.x = canvas.width / 4;
   this.y = canvas.height / 2;
-  this.directionX = 0; // initialise direction to the right
+  this.directionX = 0;
   this.directionY = 0;
   this.speed = 5;
 }

@@ -9,8 +9,6 @@ function Defender(canvas, x, y) {
   this.directionX = -1; //for player 4
   this.directionY = -1;// MVP only position Y
   this.speed = 3;
-  // this.points;
-  // this.numTackles; // 1 tackle = 5 points
   this.isInBorderTop = false;
   this.isInBorderBottom = false;
 }

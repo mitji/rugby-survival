@@ -160,19 +160,18 @@ function main() {
     if(!countriesStringified) {
       countriesParsed = countriesInit;
     } else {
-
       // Retrieve the stored data from local storage  
       const countriesRetrieved = localStorage.getItem('countries');
       countriesParsed = JSON.parse(countriesRetrieved);
     }
 
     // Take winner team
-    var indexOfPlayer = countriesInit.map( function(country) {
+    var indexOfPlayer = countriesParsed.map( function(country) {
       return country.name; 
     }).indexOf(playerCountry.name);
 
     // Take looser team
-    var indexOfMachine = countriesInit.map( function(country) { 
+    var indexOfMachine = countriesParsed.map( function(country) { 
       return country.name; 
     }).indexOf(machineCountry.name);
 
@@ -185,15 +184,14 @@ function main() {
     } else {
       countriesParsed[indexOfPlayer].lost += 1;
       countriesParsed[indexOfMachine].winned += 1;
-
       nationalAnthem.src = machineCountry.nationalAnthem; 
     }
 
     // Update classification
-    classification = countriesParsed.sort( function(a, b) {
-      return b.winned - a.winned;
+    countriesParsed.sort( function(a, b) {
+        return b.winned - a.winned;
     });
-    console.log(classification);
+    countriesParsed;
 
     // Stringify again and set new item
     const newStringifiedCountries = JSON.stringify(countriesParsed);
@@ -224,29 +222,29 @@ function main() {
                 <th>Games lost</th>
               </tr>
               <tr>
-                <td>${classification[0].name}</td>
-                <td>${classification[0].winned}</td>
-                <td>${classification[0].lost}</td>
+                <td>${countriesParsed[0].name}</td>
+                <td>${countriesParsed[0].winned}</td>
+                <td>${countriesParsed[0].lost}</td>
               </tr>
               <tr>
-                <td>${classification[1].name}</td>
-                <td>${classification[1].winned}</td>
-                <td>${classification[1].lost}</td>
+                <td>${countriesParsed[1].name}</td>
+                <td>${countriesParsed[1].winned}</td>
+                <td>${countriesParsed[1].lost}</td>
               </tr>
               <tr>
-                <td>${classification[2].name}</td>
-                <td>${classification[2].winned}</td>
-                <td>${classification[2].lost}</td>
+                <td>${countriesParsed[2].name}</td>
+                <td>${countriesParsed[2].winned}</td>
+                <td>${countriesParsed[2].lost}</td>
               </tr>
               <tr>
-                <td>${classification[3].name}</td>
-                <td>${classification[3].winned}</td>
-                <td>${classification[3].lost}</td>
+                <td>${countriesParsed[3].name}</td>
+                <td>${countriesParsed[3].winned}</td>
+                <td>${countriesParsed[3].lost}</td>
               </tr>
               <tr>
-                <td>${classification[4].name}</td>
-                <td>${classification[4].winned}</td>
-                <td>${classification[4].lost}</td>
+                <td>${countriesParsed[4].name}</td>
+                <td>${countriesParsed[4].winned}</td>
+                <td>${countriesParsed[4].lost}</td>
               </tr>
             </table>
           </div>
@@ -261,23 +259,8 @@ function main() {
     nationalAnthem.play();
 
     var resetBtn = document.body.querySelector('.reset-btn');
-    resetBtn.addEventListener('click', function() {
-      
-      console.log('in')
-      countriesParsed.forEach( function(country) {
-        country.winned = 0;
-        country.lost = 0;
-      })      
-      classification = countriesParsed;
-      // Update classification
-      // classification.forEach( function(element) {
-      //   element.winned = 0;
-      //   element.lost = 0;
-      // })
-      // var classification = countriesParsed.sort( function(a, b) {
-      //   return b.winned - a.winned;
-      // });
-      console.log(classification);
+    resetBtn.addEventListener('click', function() {     
+      localStorage.removeItem('countries');
     });
 
     var playBtn = gameOverScreen.querySelector('.play-btn');

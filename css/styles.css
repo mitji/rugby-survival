@@ -150,7 +150,6 @@ main h1 {
   align-self: center;
   cursor: pointer;
   outline: none;
-  /* border: 3px solid #00252b; */
   border: none;
   border-radius: 5px;
   background-color: #00343c;
@@ -212,7 +211,6 @@ select:nth-of-type(2) {
   display: flex;
   flex-direction: column;
   text-align: center;
-  /* margin-top: 50px; */
 }
 .game header {
   display: flex;
