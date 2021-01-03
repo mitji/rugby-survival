@@ -1,5 +1,7 @@
 # rugby-survival
 
+Live demo: https://mitji.github.io/rugby-survival/
+
 ## Description
 Rugby Survival is an evasion game inspired in rugby and the Rugby World Cup 2019 (ongoing while doing this project). You play against three defenders that will try to tackle you. If you score a try, this gives you 5 points, and if you're tackled, the opposition scores 5 points. The game finishes when one of the two teams score 25 points or more.
 
@@ -156,7 +158,7 @@ Main - buildDom
 ### Git
 URls for the project repo and deploy
 [Link Repo](https://github.com/mitji/rugby-survival)
-[Link Deploy](http://github.com)
+[Link Deploy](https://mitji.github.io/rugby-survival/)
 
 
 ### Slides
